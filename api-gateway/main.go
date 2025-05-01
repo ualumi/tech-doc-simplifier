@@ -13,8 +13,9 @@ import (
 )
 
 func main() {
+	kafka.SetupKafka()
 	// Получаем переменные окружения или дефолтные значения
-	kafkaBroker := config.GetEnv("KAFKA_BROKER", "localhost:9092")
+	kafkaBroker := config.GetEnv("KAFKA_BROKER", "broker:29092")
 	kafkaTopic := config.GetEnv("KAFKA_TOPIC", "user_requests")
 	port := config.GetEnv("PORT", "8080")
 

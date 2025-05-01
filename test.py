@@ -20,3 +20,6 @@ response = requests.post(url, json=payload, headers=headers)
 # Вывод результата
 print("Status Code:", response.status_code)
 print("Response Body:", response.text)
+
+#faa6d19245ab74032ecc9b95ef3a07757b837c2231492983c964b57cf5bff469
+#kafka-net id

@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  broker:
+    image: apache/kafka:latest
+    hostname: broker
+    container_name: broker
+    ports:
+      - 9092:9092
+      - 29092:29092  # Внешний доступ
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"  # Добавлен протокол для CONTROLLER
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093"  # Добавлен слушатель для CONTROLLER
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://broker:29092,CONTROLLER://broker:29093"  # Указаны слушатели
+      KAFKA_LISTENER_NAMES: "PLAINTEXT,CONTROLLER"  # Названия слушателей
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"  # Указан контроллер
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: "broker,controller"  # Указана роль контроллера
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker:29093"  # Указан правильный порт для контроллера
+      KAFKA_LOG_DIRS: "/tmp/kraft-combined-logs"
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+    networks:
+      - kafka-net
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - broker
+    environment:
+      - KAFKA_BROKER=broker:29092
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
