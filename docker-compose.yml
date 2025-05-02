@@ -39,6 +39,54 @@ services:
     networks:
       - kafka-net
 
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - user-db
+      - redis
+      - broker
+    environment:
+      - PORT=8081
+      - POSTGRES_DSN=postgresql://postgres:postgres@user-db:5432/users_info?sslmode=disable
+      - REDIS_ADDR=redis:6379
+      - KAFKA_BROKER=broker:29092
+      - KAFKA_TOPIC=user_requests
+    networks:
+      - kafka-net
+
+  user-db:
+    image: postgres:14
+    container_name: user-db
+    restart: always
+    environment:
+      POSTGRES_DB: users_info
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./user-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - kafka-net
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - kafka-net
+
 networks:
   kafka-net:
     driver: bridge
+
+volumes:
+  pgdata:
+
