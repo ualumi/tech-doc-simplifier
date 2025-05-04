@@ -57,13 +57,24 @@ var responseReader *kafka.Reader
 func InitConsumer(broker, topic string) {
 	log.Printf("[Kafka InitConsumer] Initializing consumer for topic '%s' at broker '%s'\n", topic, broker)
 
+	// Сброс offset до самого последнего вручную
+	conn, err := kafka.DialLeader(context.Background(), "tcp", broker, topic, 0)
+	if err != nil {
+		log.Fatalf("[Kafka InitConsumer] Failed to connect to Kafka leader: %v\n", err)
+	}
+	lastOffset, err := conn.ReadLastOffset()
+	if err != nil {
+		log.Fatalf("[Kafka InitConsumer] Failed to read last offset: %v\n", err)
+	}
+	conn.Close()
+
 	responseReader = kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{broker},
-		Topic:   topic,
-		//GroupID:     "api-gateway-response-group",
+		Brokers:     []string{broker},
+		Topic:       topic,
+		GroupID:     "", // без GroupID — каждый раз читаем заново
+		StartOffset: lastOffset,
 		MinBytes:    10e3,
 		MaxBytes:    10e6,
-		StartOffset: kafka.LastOffset,
 	})
 
 	log.Println("[Kafka InitConsumer] Consumer successfully initialized")
