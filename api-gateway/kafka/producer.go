@@ -2,6 +2,7 @@ package kafka
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"github.com/segmentio/kafka-go"
@@ -24,24 +25,35 @@ func CloseProducer() error {
 	return nil
 }
 
-//func PublishSimplifyRequest(text string) error {
-//	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-//	defer cancel()
-//
-//	msg := kafka.Message{
-//		Value: []byte(text),
-//	}
-//	return writer.WriteMessages(ctx, msg)
-//}
+// Struct for Kafka message payload
+type SimplifyRequest struct {
+	Text  string `json:"text"`
+	Token string `json:"token"`
+}
 
-func PublishSimplifyRequest(correlationID, text string) error {
+// PublishSimplifyRequest publishes a message with correlationID, text, and token to Kafka
+func PublishSimplifyRequest(correlationID, text, token string) error {
+	// Create the message object with text and token
+	message := SimplifyRequest{
+		Text:  text,
+		Token: token,
+	}
+
+	// Serialize the message to JSON
+	messageBytes, err := json.Marshal(message)
+	if err != nil {
+		return err
+	}
+
+	// Publish the message to Kafka
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	msg := kafka.Message{
-		Key:   []byte(correlationID),
-		Value: []byte(text),
+		Key:   []byte(correlationID), // Use the correlation ID as the message key
+		Value: messageBytes,          // Send the serialized JSON message
 	}
+
 	return writer.WriteMessages(ctx, msg)
 }
 

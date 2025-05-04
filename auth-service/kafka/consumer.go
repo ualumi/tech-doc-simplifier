@@ -3,6 +3,88 @@ package kafka
 import (
 	"auth-service/db"
 	"context"
+	"encoding/json"
+	"log"
+	"os"
+
+	"github.com/segmentio/kafka-go"
+)
+
+type SimplifyRequest struct {
+	Text  string `json:"text"`
+	Token string `json:"token"`
+}
+
+func StartConsumer() {
+	broker := os.Getenv("KAFKA_BROKER")
+	requestTopic := os.Getenv("KAFKA_TOPIC")
+	responseTopic := "user_responses" // фиксировано или из env
+
+	// Создание нового читателя с правильной конфигурацией
+	reader := kafka.NewReader(kafka.ReaderConfig{
+		Brokers:  []string{broker},
+		Topic:    requestTopic,
+		GroupID:  "auth-service-group", // ID группы
+		MinBytes: 10e3,                 // минимальный размер пакета (в байтах)
+		MaxBytes: 10e6,                 // максимальный размер пакета (в байтах)
+	})
+
+	// Создание писателя, который будет отправлять ответы
+	writer := kafka.Writer{
+		Addr:  kafka.TCP(broker),
+		Topic: responseTopic,
+	}
+
+	for {
+		// Чтение сообщения
+		msg, err := reader.ReadMessage(context.Background())
+		if err != nil {
+			log.Println("Kafka read error:", err)
+			continue
+		}
+
+		// Логирование сообщения
+		log.Printf("Received message: Key=%s, Value=%s", string(msg.Key), string(msg.Value))
+
+		// Парсинг JSON в структуру
+		var request SimplifyRequest
+		err = json.Unmarshal(msg.Value, &request)
+		if err != nil {
+			log.Println("Error unmarshalling message:", err)
+			continue
+		}
+
+		// Логируем токен
+		log.Printf("Token from message: %s", request.Token)
+
+		// Проверка токена в базе данных
+		var response string
+		if db.CheckToken(request.Token) {
+			response = "Token valid"
+		} else {
+			response = "Unauthorized"
+		}
+
+		// Логирование ответа
+		log.Printf("Sending response: %s", response)
+
+		// Отправка ответа в Kafka топик
+		err = writer.WriteMessages(context.Background(), kafka.Message{
+			Key:   msg.Key,
+			Value: []byte(response),
+		})
+		if err != nil {
+			log.Println("Error sending response:", err)
+		}
+	}
+}
+
+//принимает токеном в виде строки а не формат запроса для урощения
+/*package kafka
+
+import (
+	"auth-service/db"
+	"context"
 	"log"
 	"os"
 
@@ -62,7 +144,7 @@ func StartConsumer() {
 			log.Println("Error sending response:", err)
 		}
 	}
-}
+}*/
 
 //старій код с ним все работает
 /*package kafka

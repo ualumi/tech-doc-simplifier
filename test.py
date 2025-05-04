@@ -117,7 +117,8 @@ response = requests.post(url, json=data)
 print("Status Code:", response.status_code)
 print("Response JSON:", response.json() if response.status_code == 200 else response.text)'''
 
-from kafka import KafkaProducer, KafkaConsumer
+#тестирование юрокера напрямую
+'''from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import KafkaError
 import uuid
 import json
@@ -168,5 +169,66 @@ for message in consumer:
         break
 
 if not found:
-    print("[Test] Response not found.")
+    print("[Test] Response not found.")'''
 
+
+#тестирование обновленного /simplify
+import requests
+
+# Адрес вашего API Gateway
+url = "http://localhost:8080/simplify"
+
+# Токен, полученный после авторизации
+token = "60fea940-103a-406d-906a-3be2911ab766"  # Замените на действительный токен
+
+# Текст для упрощения
+
+
+data = {
+    "text": "so difficult text idk"
+}
+
+# Заголовки запроса с токеном
+headers = {
+    "Authorization": f"Bearer {token}",
+    "Content-Type": "application/json"
+}
+
+# Отправка POST-запроса
+response = requests.post(url, headers=headers, json=data, timeout=50)
+
+# Печать результата
+print("Status:", response.status_code)
+print("Response text:", response.text)
+
+
+'''import requests
+import uuid
+
+# Адрес вашего API Gateway
+url = "http://localhost:8080/simplify"
+
+# Токен, полученный после авторизации
+token = "60fea940-103a-406d-906a-3be2911ab766"  # Замените на действительный токен
+
+# Генерация уникального идентификатора (например, UUID)
+message_key = str(uuid.uuid4())  # Генерация уникального ключа (например, для Kafka)
+
+# Структура данных, которая будет отправлена
+data = {
+    "key": message_key,  # Уникальный идентификатор сообщения
+    "value": token  # Токен (значение)
+}
+
+# Заголовки запроса с токеном
+headers = {
+    "Authorization": f"Bearer {token}",
+    "Content-Type": "application/json"
+}
+
+# Отправка POST-запроса
+response = requests.post(url, headers=headers, json=data, timeout=50)
+
+# Печать результата
+print("Status:", response.status_code)
+print("Response text:", response.text)'''
