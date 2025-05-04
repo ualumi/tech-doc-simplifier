@@ -64,13 +64,13 @@ response = requests.post(url, json=payload)
 print("Status Code:", response.status_code)
 print("Response Body:", response.text)'''
 
-import requests
+'''import requests
 
 import requests
 
 url = "http://localhost:8080/simplify"
 headers = {
-    "Authorization": "b8446067-8f5f-4a9d-a87b-3e0619e4630e",
+    "Authorization": "60fea940-103a-406d-906a-3be2911ab766",
     "Content-Type": "application/json"
 }
 data = {
@@ -79,7 +79,7 @@ data = {
 
 response = requests.post(url, headers=headers, json=data)
 print("Status:", response.status_code)
-print("Response text:", response.text)
+print("Response text:", response.text)'''
 
 #S/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server broker:29092
 
@@ -116,3 +116,57 @@ response = requests.post(url, json=data)
 
 print("Status Code:", response.status_code)
 print("Response JSON:", response.json() if response.status_code == 200 else response.text)'''
+
+from kafka import KafkaProducer, KafkaConsumer
+from kafka.errors import KafkaError
+import uuid
+import json
+import time
+
+# Настройки
+bootstrap_servers = 'localhost:29092'
+request_topic = 'user_requests'
+response_topic = 'user_responses'
+
+# Генерация токена для теста (предположим, ты уже залогинился и получил токен)
+test_token = '60fea940-103a-406d-906a-3be2911ab766'
+
+# Уникальный ключ сообщения
+message_key = str(uuid.uuid4()).encode('utf-8')
+
+# Создаём продюсера и отправляем токен
+producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
+producer.send(
+    request_topic,
+    key=message_key,
+    value=test_token.encode('utf-8')
+)
+producer.flush()
+
+print(f"[Producer] Sent token: {test_token}")
+
+# Создаём консюмера для получения ответа
+consumer = KafkaConsumer(
+    response_topic,
+    bootstrap_servers=bootstrap_servers,
+    group_id='test-consumer-group',
+    auto_offset_reset='earliest',
+    enable_auto_commit=True
+)
+
+# Ожидаем ответ максимум 10 секунд
+found = False
+start = time.time()
+
+for message in consumer:
+    if message.key == message_key:
+        print(f"[Consumer] Got response: {message.value.decode('utf-8')}")
+        found = True
+        break
+    if time.time() - start > 10:
+        print("[Consumer] Timeout waiting for response.")
+        break
+
+if not found:
+    print("[Test] Response not found.")
+
