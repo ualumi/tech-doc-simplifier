@@ -2,27 +2,33 @@ version: "3.8"
 
 services:
   broker:
-    image: apache/kafka:latest
-    hostname: broker
+    image: confluentinc/cp-kafka:7.5.0
     container_name: broker
     ports:
-      - 9092:9092
-      - 29092:29092  # Внешний доступ
+      - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"  # Добавлен протокол для CONTROLLER
-      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093"  # Добавлен слушатель для CONTROLLER
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://broker:29092,CONTROLLER://broker:29093"  # Указаны слушатели
-      KAFKA_LISTENER_NAMES: "PLAINTEXT,CONTROLLER"  # Названия слушателей
-      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"  # Указан контроллер
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_PROCESS_ROLES: "broker,controller"  # Указана роль контроллера
-      KAFKA_NODE_ID: 1
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@broker:29093"  # Указан правильный порт для контроллера
-      KAFKA_LOG_DIRS: "/tmp/kraft-combined-logs"
-      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+      KAFKA_NUM_PARTITIONS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka-net
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     networks:
       - kafka-net
 
@@ -35,10 +41,9 @@ services:
     depends_on:
       - broker
     environment:
-      - KAFKA_BROKER=broker:29092
+      - KAFKA_BROKER=broker:9092
     networks:
       - kafka-net
-
 
   auth-service:
     build:
@@ -54,8 +59,9 @@ services:
       - PORT=8081
       - POSTGRES_DSN=postgresql://postgres:postgres@user-db:5432/users_info?sslmode=disable
       - REDIS_ADDR=redis:6379
-      - KAFKA_BROKER=broker:29092
+      - KAFKA_BROKER=broker:9092
       - KAFKA_TOPIC=user_requests
+      - KAFKA_RESPONSE_TOPIC=user_responses
     networks:
       - kafka-net
 
@@ -89,4 +95,3 @@ networks:
 
 volumes:
   pgdata:
-
