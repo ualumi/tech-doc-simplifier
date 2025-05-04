@@ -179,7 +179,7 @@ import requests
 url = "http://localhost:8080/simplify"
 
 # Токен, полученный после авторизации
-token = "60fea940-103a-406d-906a-3be2911ab766"  # Замените на действительный токен
+token = "a94fb08a-f08f-4464-a9bb-fb9279786a70"  # Замените на действительный токен
 
 # Текст для упрощения
 
@@ -195,7 +195,7 @@ headers = {
 }
 
 # Отправка POST-запроса
-response = requests.post(url, headers=headers, json=data, timeout=50)
+response = requests.post(url, headers=headers, json=data, timeout=70)
 
 # Печать результата
 print("Status:", response.status_code)
