@@ -92,6 +92,20 @@ services:
     networks:
       - kafka-net
 
+  model-service:
+    build:
+      context: ./model-service
+    container_name: model-service
+    depends_on:
+      - broker
+    environment:
+      - KAFKA_BROKER=broker:9092
+      - KAFKA_REQUEST_TOPIC=model_requests
+      - KAFKA_RESPONSE_TOPIC=model_response
+    networks:
+      - kafka-net
+
+
 networks:
   kafka-net:
     driver: bridge
