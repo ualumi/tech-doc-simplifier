@@ -17,36 +17,40 @@ type SimplifyRequest struct {
 
 func StartConsumer() {
 	broker := os.Getenv("KAFKA_BROKER")
-	requestTopic := os.Getenv("KAFKA_TOPIC")
-	responseTopic := "user_responses" // фиксировано или из env
+	requestTopic := os.Getenv("KAFKA_TOPIC") // например: model_requests
+	responseTopic := "user_responses"        // для статуса валидации
+	forwardTopic := "text_request"           // новая цель, если токен валиден
 
-	// Создание нового читателя с правильной конфигурацией
+	// Чтение запросов
 	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:  []string{broker},
 		Topic:    requestTopic,
-		GroupID:  "auth-service-group", // ID группы
-		MinBytes: 10e3,                 // минимальный размер пакета (в байтах)
-		MaxBytes: 10e6,                 // максимальный размер пакета (в байтах)
+		GroupID:  "auth-service-group",
+		MinBytes: 10e3,
+		MaxBytes: 10e6,
 	})
 
-	// Создание писателя, который будет отправлять ответы
-	writer := kafka.Writer{
+	// Ответ о статусе токена
+	responseWriter := kafka.Writer{
 		Addr:  kafka.TCP(broker),
 		Topic: responseTopic,
 	}
 
+	// Писатель для повторной отправки текста
+	forwardWriter := kafka.Writer{
+		Addr:  kafka.TCP(broker),
+		Topic: forwardTopic,
+	}
+
 	for {
-		// Чтение сообщения
 		msg, err := reader.ReadMessage(context.Background())
 		if err != nil {
 			log.Println("Kafka read error:", err)
 			continue
 		}
 
-		// Логирование сообщения
 		log.Printf("Received message: Key=%s, Value=%s", string(msg.Key), string(msg.Value))
 
-		// Парсинг JSON в структуру
 		var request SimplifyRequest
 		err = json.Unmarshal(msg.Value, &request)
 		if err != nil {
@@ -54,22 +58,32 @@ func StartConsumer() {
 			continue
 		}
 
-		// Логируем токен
 		log.Printf("Token from message: %s", request.Token)
 
-		// Проверка токена в базе данных
 		var response string
 		if db.CheckToken(request.Token) {
 			response = "Token valid"
+
+			// Асинхронно форвардим сообщение в text_request
+			go func(originalKey []byte, originalValue []byte) {
+				err := forwardWriter.WriteMessages(context.Background(), kafka.Message{
+					Key:   originalKey,
+					Value: originalValue,
+				})
+				if err != nil {
+					log.Println("Error forwarding message to text_request:", err)
+				} else {
+					log.Println("Forwarded message to text_request")
+				}
+			}(msg.Key, msg.Value)
+
 		} else {
 			response = "Unauthorized"
 		}
 
-		// Логирование ответа
 		log.Printf("Sending response: %s", response)
 
-		// Отправка ответа в Kafka топик
-		err = writer.WriteMessages(context.Background(), kafka.Message{
+		err = responseWriter.WriteMessages(context.Background(), kafka.Message{
 			Key:   msg.Key,
 			Value: []byte(response),
 		})
@@ -78,121 +92,3 @@ func StartConsumer() {
 		}
 	}
 }
-
-//принимает токеном в виде строки а не формат запроса для урощения
-/*package kafka
-
-import (
-	"auth-service/db"
-	"context"
-	"log"
-	"os"
-
-	"github.com/segmentio/kafka-go"
-)
-
-func StartConsumer() {
-	broker := os.Getenv("KAFKA_BROKER")
-	requestTopic := os.Getenv("KAFKA_TOPIC")
-	responseTopic := "user_responses" // фиксировано или из env
-
-	// Создание нового читателя с правильной конфигурацией
-	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:  []string{broker},
-		Topic:    requestTopic,
-		GroupID:  "auth-service-group", // ID группы
-		MinBytes: 10e3,                 // минимальный размер пакета (в байтах)
-		MaxBytes: 10e6,                 // максимальный размер пакета (в байтах)
-	})
-
-	// Создание писателя, который будет отправлять ответы
-	writer := kafka.Writer{
-		Addr:  kafka.TCP(broker),
-		Topic: responseTopic,
-	}
-
-	for {
-		// Чтение сообщения
-		msg, err := reader.ReadMessage(context.Background())
-		if err != nil {
-			log.Println("Kafka read error:", err)
-			continue
-		}
-
-		// Логирование сообщения
-		log.Printf("Received message: Key=%s, Value=%s", string(msg.Key), string(msg.Value))
-
-		token := string(msg.Value)
-		var response string
-
-		// Проверка токена в базе данных
-		if db.CheckToken(token) {
-			response = "Token valid"
-		} else {
-			response = "Unauthorized"
-		}
-
-		// Логирование ответа
-		log.Printf("Sending response: %s", response)
-
-		// Отправка ответа в Kafka топик
-		err = writer.WriteMessages(context.Background(), kafka.Message{
-			Key:   msg.Key,
-			Value: []byte(response),
-		})
-		if err != nil {
-			log.Println("Error sending response:", err)
-		}
-	}
-}*/
-
-//старій код с ним все работает
-/*package kafka
-
-import (
-	"auth-service/db"
-	"context"
-	"log"
-	"os"
-
-	"github.com/segmentio/kafka-go"
-)
-
-func StartConsumer() {
-	broker := os.Getenv("KAFKA_BROKER")
-	topic := os.Getenv("KAFKA_TOPIC")
-
-	// Добавляем проверку и логирование
-	if topic == "" {
-		log.Fatal("KAFKA_TOPIC environment variable is not set")
-	}
-	if broker == "" {
-		log.Fatal("KAFKA_BROKER environment variable is not set")
-	}
-
-	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{broker},
-		Topic:   topic,
-		//GroupID: "auth-group",
-	})
-
-	for {
-		msg, err := r.ReadMessage(context.Background())
-		if err != nil {
-			log.Println("Kafka read error:", err)
-			continue
-		}
-
-		token := string(msg.Value)
-		if db.CheckToken(token) {
-			log.Println("Auth token found in Redis:", token)
-		} else {
-			user, err := db.GetUserByToken(token)
-			if err != nil {
-				log.Println("Unauthorized:", token)
-			} else {
-				log.Println("Authorized:", user.Login)
-			}
-		}
-	}
-}*/

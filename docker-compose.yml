@@ -105,6 +105,23 @@ services:
     networks:
       - kafka-net
 
+  text-service:
+    build:
+      context: ./text-service
+    container_name: text-service
+    depends_on:
+      - broker
+      - redis
+    environment:
+      - KAFKA_BROKER=broker:9092
+      - KAFKA_USER_TOPIC=user_responses
+      - KAFKA_MODEL_REQUEST_TOPIC=model_requests
+      - KAFKA_MODEL_RESPONSE_TOPIC=model_responses
+      - REDIS_ADDR=redis:6379
+    networks:
+      - kafka-net
+
+
 
 networks:
   kafka-net:
