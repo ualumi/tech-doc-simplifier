@@ -86,6 +86,17 @@ func main() {
 		}
 	}()
 
+	// Запускаем отдельный Kafka-консьюмер для model_response
+	kafka.InitModelResponseConsumer(kafkaBroker, "model_response")
+	kafka.StartModelResponseConsumer(func(msg string) {
+		log.Println("Ответ от model-service:", msg)
+	})
+	defer func() {
+		if err := kafka.CloseModelResponseConsumer(); err != nil {
+			log.Println("Ошибка при закрытии model_response consumer:", err)
+		}
+	}()
+
 	// Настройка роутера
 	r := mux.NewRouter()
 	r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST")
