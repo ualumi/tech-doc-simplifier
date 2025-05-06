@@ -45,6 +45,7 @@ services:
       - broker
     environment:
       - KAFKA_BROKER=broker:9092
+      - KAFKA_RESPONSE_TOPIC=model_responses
     networks:
       - kafka-net
 
@@ -65,6 +66,7 @@ services:
       - KAFKA_BROKER=broker:9092
       - KAFKA_TOPIC=user_requests
       - KAFKA_RESPONSE_TOPIC=user_responses
+      - KAFKA_FORWARD_TOPIC=text_requests #если запрос валиден
     networks:
       - kafka-net
 
@@ -101,7 +103,7 @@ services:
     environment:
       - KAFKA_BROKER=broker:9092
       - KAFKA_REQUEST_TOPIC=model_requests
-      - KAFKA_RESPONSE_TOPIC=model_response
+      - KAFKA_RESPONSE_TOPIC=model_responses
     networks:
       - kafka-net
 
@@ -115,6 +117,7 @@ services:
     environment:
       - KAFKA_BROKER=broker:9092
       - KAFKA_USER_TOPIC=user_responses
+      - KAFKA_PRODUCER_TOPIC=text_requests
       - KAFKA_MODEL_REQUEST_TOPIC=model_requests
       - KAFKA_MODEL_RESPONSE_TOPIC=model_responses
       - REDIS_ADDR=redis:6379

@@ -102,9 +102,9 @@ data = {
 response = requests.post(url, json=data)
 
 print("Status Code:", response.status_code)
-print("Response Text:", response.text)'''
+print("Response Text:", response.text)
 
-'''import requests
+import requests
 
 url = "http://localhost:8081/login"
 data = {
@@ -179,7 +179,7 @@ import requests
 url = "http://localhost:8080/simplify"
 
 # Токен, полученный после авторизации
-token = "724dcb9e-4140-44c8-9c1b-2e8b89f0ac3b"  # Замените на действительный токен
+token = "0a7a2338-6e0b-4665-ae64-c92f0e9522b9"  # Замените на действительный токен
 
 # Текст для упрощения
 
