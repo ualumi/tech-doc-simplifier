@@ -3,39 +3,53 @@ package kafka
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/segmentio/kafka-go"
 )
 
-var modelResponseReader *kafka.Reader
+func ReadModelResponseOnce(broker, topic, correlationID string) (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 
-func InitModelResponseConsumer(broker, topic string) {
-	modelResponseReader = kafka.NewReader(kafka.ReaderConfig{
+	log.Printf("[Kafka ReadModelResponseOnce] Waiting for model response with correlationID: %s\n", correlationID)
+
+	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:  []string{broker},
 		Topic:    topic,
-		GroupID:  "model-response-group",
+		GroupID:  "read-model-response-" + correlationID, // без GroupID — читаем напрямую
 		MinBytes: 1,
 		MaxBytes: 10e6,
 	})
-}
 
-func StartModelResponseConsumer(handler func(string)) {
-	go func() {
-		log.Println("Модельный консьюмер запущен для топика model_response...")
-		for {
-			msg, err := modelResponseReader.ReadMessage(context.Background())
-			if err != nil {
-				log.Println("Ошибка чтения model_response:", err)
-				continue
-			}
-			handler(string(msg.Value))
-		}
-	}()
-}
-
-func CloseModelResponseConsumer() error {
-	if modelResponseReader != nil {
-		return modelResponseReader.Close()
+	// Установка offset вручную: на последний, но читаем сразу после
+	conn, err := kafka.DialLeader(ctx, "tcp", broker, topic, 0)
+	if err != nil {
+		log.Printf("[Kafka ReadModelResponseOnce] Failed to dial leader: %v\n", err)
+		return "", err
 	}
-	return nil
+	lastOffset, err := conn.ReadLastOffset()
+	conn.Close()
+	if err != nil {
+		log.Printf("[Kafka ReadModelResponseOnce] Failed to get last offset: %v\n", err)
+		return "", err
+	}
+	reader.SetOffset(lastOffset)
+
+	defer reader.Close()
+
+	for {
+		msg, err := reader.ReadMessage(ctx)
+		if err != nil {
+			log.Printf("[Kafka ReadModelResponseOnce] Read error: %v\n", err)
+			return "", err
+		}
+
+		log.Printf("[Kafka ReadModelResponseOnce] Received message: key=%s, value=%s\n", string(msg.Key), string(msg.Value))
+
+		if string(msg.Key) == correlationID {
+			log.Printf("[Kafka ReadModelResponseOnce] Matched correlationID: %s\n", correlationID)
+			return string(msg.Value), nil
+		}
+	}
 }

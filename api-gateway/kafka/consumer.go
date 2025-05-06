@@ -71,8 +71,8 @@ func InitConsumer(broker, topic string) {
 	responseReader = kafka.NewReader(kafka.ReaderConfig{
 		Brokers:     []string{broker},
 		Topic:       topic,
-		GroupID:     "", // без GroupID — каждый раз читаем заново
-		StartOffset: lastOffset,
+		GroupID:     "",         // без GroupID — каждый раз читаем заново
+		StartOffset: lastOffset, // начинаем с последнего оффсета
 		MinBytes:    10e3,
 		MaxBytes:    10e6,
 	})
@@ -81,24 +81,31 @@ func InitConsumer(broker, topic string) {
 }
 
 func ReadResponse(correlationID string) (string, error) {
+	// Устанавливаем таймаут
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	log.Printf("[Kafka ReadResponse] Waiting for response with correlationID: %s\n", correlationID)
 
 	for {
+		// Чтение сообщения
 		m, err := responseReader.ReadMessage(ctx)
 		if err != nil {
 			log.Printf("[Kafka ReadResponse] Error while reading message: %v\n", err)
 			return "", err
 		}
 
+		// Логируем полученное сообщение (ключ и значение)
 		log.Printf("[Kafka ReadResponse] Received message from topic: key=%s, value=%s\n", string(m.Key), string(m.Value))
 
+		// Проверяем совпадение корреляционного ID
 		if string(m.Key) == correlationID {
 			log.Printf("[Kafka ReadResponse] Found matching response for correlationID: %s\n", correlationID)
 			return string(m.Value), nil
 		}
+
+		// Логируем сообщение, если не совпало с correlationID
+		log.Printf("[Kafka ReadResponse] No match for correlationID: %s, got: %s\n", correlationID, string(m.Key))
 	}
 }
 

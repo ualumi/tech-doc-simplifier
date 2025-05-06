@@ -22,7 +22,7 @@ docker exec -it broker /bin/bash
   --replication-factor 1
 
 
-новій топик на ковой кафке
+новій топик на новой кафке
 docker exec -it broker bash
 
 
