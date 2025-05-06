@@ -22,12 +22,15 @@ docker exec -it broker /bin/bash
   --replication-factor 1
 
 
-/opt/kafka/bin/kafka-topics.sh \
-  --create \
-  --topic user_responses \
-  --bootstrap-server broker:29092 \
-  --partitions 1 \
-  --replication-factor 1
+новій топик на ковой кафке
+docker exec -it broker bash
+
+
+kafka-topics --create \
+   --bootstrap-server localhost:9092 \
+   --replication-factor 1 \
+   --partitions 1 \
+   --topic model_requests
 
 
 docker logs auth-service
