@@ -21,7 +21,15 @@ def consume():
     for message in consumer:
         request = message.value
         print(f"Received: {request}")
+        
         text = request.get("text")
-        if text:
+        token = request.get("token")  # correlation ID для ответа
+
+        if text and token:
             simplified = simplify_text(text)
-            send_result_to_kafka({"original": text, "simplified": simplified})
+            result = {
+                "original": {"text": text, "token": token},
+                "simplified": {"text": simplified, "token": token}
+            }
+            send_result_to_kafka(result, correlation_id=token)
+

@@ -10,7 +10,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-def send_result_to_kafka(result):
-    print(f"Sending to '{RESPONSE_TOPIC}': {result}")
-    producer.send(RESPONSE_TOPIC, value=result)
+def send_result_to_kafka(result, correlation_id):
+    print(f"Sending to '{RESPONSE_TOPIC}': key={correlation_id}, value={result}")
+    producer.send(RESPONSE_TOPIC, key=correlation_id.encode('utf-8'), value=result)
     producer.flush()

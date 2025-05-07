@@ -5,6 +5,8 @@ import (
 	"text-service/handlers"
 	"text-service/kafka"
 	"text-service/redis"
+
+	kafkaGo "github.com/segmentio/kafka-go"
 )
 
 func main() {
@@ -13,7 +15,7 @@ func main() {
 
 	go kafka.StartResponseConsumer()
 
-	msgChan := make(chan string)
+	msgChan := make(chan kafkaGo.Message)
 	kafka.StartUserRequestConsumer(msgChan)
 
 	go func() {
