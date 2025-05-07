@@ -179,13 +179,13 @@ import requests
 url = "http://localhost:8080/simplify"
 
 # Токен, полученный после авторизации
-token = "f7c6be90-a0c1-486f-a2b3-8fcfcdc763d0"  # Замените на действительный токен
+token = "a556adc8-2ace-48e3-9b3a-aca00cfa13b9"  # Замените на действительный токен
 
 # Текст для упрощения
 
 
 data = {
-    "text": "so difficult text idk"
+    "text": "so difficult text iу"
 }
 
 # Заголовки запроса с токеном

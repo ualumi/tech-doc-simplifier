@@ -67,7 +67,7 @@ func SimplifyHandler(w http.ResponseWriter, r *http.Request) {
 
 	modelResp, err := kafka.ReadModelResponseOnce(
 		config.GetEnv("KAFKA_BROKER", "broker:9092"),
-		"model_responses",
+		"model_response",
 		corrID,
 	)
 	if err != nil {

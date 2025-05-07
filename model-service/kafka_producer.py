@@ -10,8 +10,15 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-# kafka_producer.py
-def send_result_to_kafka(result, correlation_id):
+def send_result_to_kafka(result: dict, correlation_id: str):
+    from kafka import KafkaProducer
+    import json
+
+    producer = KafkaProducer(
+        bootstrap_servers=KAFKA_BROKER,
+        # без value_serializer
+    )
+
     print(f"Sending model response to topic: key={correlation_id}, value={result}")
     producer.send(
         RESPONSE_TOPIC,
