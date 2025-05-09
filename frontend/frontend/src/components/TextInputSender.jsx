@@ -41,7 +41,7 @@ const TextInputSender = ({ token, onTriggerLogin }) => {
     <div>
       <input
         type="text"
-        className="border px-3 py-2 w-full mb-2"
+        className="InputText"
         placeholder="Введите текст..."
         value={text}
         onClick={handleInputClick}

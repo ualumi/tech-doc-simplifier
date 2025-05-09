@@ -1,4 +1,4 @@
-:root {
+/*:root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -65,4 +65,202 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}*/
+
+@font-face
+{
+ font-family: rocgrotesk;
+ src: url("./static/Fontspring-DEMO-rocgrotesk-light.otf");
+}
+
+.HighText{
+  color: #ffffff;
+  font-size: 5vh;
+  text-align: center;
+  margin: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+.RegularText{
+  color: #ffffff;
+  font-size: 1.1vw;
+  text-align: center;
+  text-decoration: none;
+  opacity: 0.5;
+}
+
+.text-field{
+  width: 55vh;
+}
+
+body{
+  background-color: black;
+  font-family: rocgrotesk;
+  overflow: hidden;
+}
+
+button{
+  font-family: rocgrotesk;
+  border-radius: 40px;
+  background-color: #ffffff;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: none;
+}
+
+.InputText{
+  background-color: rgba(0, 0, 0, 0.0);
+  border: none;
+  width: 40vw;
+  color: none;
+}
+
+.main-content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 50px;
+  margin-right: 50px;
+  height: 100vh;
+}
+
+.content{
+  /*flex: 0.85;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-self: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.footer-elem{
+  height: 20vh;
+  border-top: 1px solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.input-field{
+  border-radius: 40px;
+  background-color: rgba(0, 0, 0, 0.25);
+  width: fit-content;
+  padding: 20px;
+  margin-top: 10px;
+  
+}
+
+.loginform{
+  display:flex;
+  flex-direction: column;
+}
+
+.navbar{
+  width: 95vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+}
+
+.nav-links{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  /*opacity: 0.5;*/
+}
+
+li{
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  
+}
+
+ul {
+  list-style-type: none;
+
+ }
+
+.logo{
+  display: flex;
+  justify-content: left;
+  opacity: 1;
+}
+
+.auth-section{
+  display: flex;
+  justify-content: right;
+}
+
+.floating-circles-container {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* за всеми элементами */
+  overflow: hidden;
+}
+
+.circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(100, 149, 237, 0.4);/*url(./static/Rectangle\ 85.png); /* полупрозрачный синий */
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.floating-circles-container {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.circle {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+}
+
+/* Первая окружность */
+.circle-1 {
+  /*background: radial-gradient(47.3% 47.5% at 44.99% 59.52%, #00E29A 0%, rgba(0, 226, 154, 0) 100%);*/
+  /*filter: blur(37.5618px);*/
+  background: radial-gradient(217.68% 217.68% at 27.97% 49.05%, #5AE9FD 0%, rgba(90, 233, 253, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  border: 20.8557px solid #00E29A;
+  filter: blur(49.6988px);
+}
+
+/* Вторая окружность */
+.circle-2 {
+  /*background: radial-gradient(34.08% 34.22% at 66% 27.65%, #7C75FF 0%, rgba(72, 78, 183, 0) 100%, rgba(159, 167, 255, 0) 100%);
+  mix-blend-mode: color-dodge;
+  filter: blur(60.323px);*/
+  background: #FE63C1;
+  mix-blend-mode: lighten;
+  filter: blur(58.7917px);
+}
+
+/* Третья окружность */
+.circle-3 {
+  background: radial-gradient(158.99% 50% at 50% 50%, #8B78FF 0%, rgba(99, 73, 255, 0.37) 100%);
+  mix-blend-mode: color-dodge;
+  filter: blur(60.323px);
 }
