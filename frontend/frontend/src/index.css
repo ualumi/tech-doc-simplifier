@@ -73,9 +73,15 @@ button:focus-visible {
  src: url("./static/Fontspring-DEMO-rocgrotesk-light.otf");
 }
 
+@font-face
+{
+ font-family: loos;
+ src: url("./static/fonnts.com-Loos_ExtraWide_Extra_Light.otf");
+}
+
 .HighText{
   color: #ffffff;
-  font-size: 5vh;
+  font-size: 6vh;
   text-align: center;
   margin: 0px;
   padding-left: 20px;
@@ -86,24 +92,24 @@ button:focus-visible {
 
 .RegularText{
   color: #ffffff;
-  font-size: 1.1vw;
+  font-size: 2vh;
   text-align: center;
   text-decoration: none;
   opacity: 0.5;
 }
 
 .text-field{
-  width: 55vh;
+  width: 70vh;
 }
 
 body{
   background-color: black;
-  font-family: rocgrotesk;
+  font-family: loos;
   overflow: hidden;
 }
 
 button{
-  font-family: rocgrotesk;
+  font-family: loos;
   border-radius: 40px;
   background-color: #ffffff;
   padding-left: 20px;
@@ -142,7 +148,7 @@ button{
 }
 
 .footer-elem{
-  height: 20vh;
+  height: 15vh;
   border-top: 1px solid;
   border-color: rgba(255, 255, 255, 0.3);
   width: 100%;
@@ -187,8 +193,7 @@ button{
 li{
   padding-left: 20px;
   padding-right: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
+
   
 }
 
@@ -215,14 +220,14 @@ ul {
   overflow: hidden;
 }
 
-.circle {
+/*.circle {
   position: absolute;
   width: 100px;
   height: 100px;
-  background: rgba(100, 149, 237, 0.4);/*url(./static/Rectangle\ 85.png); /* полупрозрачный синий */
+  background: rgba(100, 149, 237, 0.4);
   border-radius: 50%;
   pointer-events: none;
-}
+}*/
 
 .floating-circles-container {
   position: fixed;
@@ -238,6 +243,8 @@ ul {
   height: 500px;
   border-radius: 50%;
 }
+
+
 
 /* Первая окружность */
 .circle-1 {

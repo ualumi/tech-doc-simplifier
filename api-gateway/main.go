@@ -1,54 +1,3 @@
-/*
-package main
-
-import (
-
-	"log"
-	"net/http"
-
-	"api-gateway/config"
-	"api-gateway/handlers"
-	"api-gateway/kafka"
-	"api-gateway/middleware"
-
-	"github.com/gorilla/mux"
-
-)
-
-	func main() {
-		kafka.SetupKafka()
-		// Получаем переменные окружения или дефолтные значения
-		kafkaBroker := config.GetEnv("KAFKA_BROKER", "broker:9092")
-		kafkaTopic := config.GetEnv("KAFKA_TOPIC", "user_requests")
-		port := config.GetEnv("PORT", "8080")
-
-		// Инициализируем Kafka-консьюмер
-		kafka.InitConsumer(kafkaBroker, "user_responses") // <-- ЭТО ДОБАВЛЕНО
-
-		defer func() {
-			if err := kafka.CloseProducer(); err != nil {
-				log.Println("Ошибка при закрытии Kafka:", err)
-			}
-		}()
-
-		// Инициализируем Kafka-писатель
-		kafka.InitProducer(kafkaBroker, kafkaTopic)
-		defer func() {
-			if err := kafka.CloseProducer(); err != nil {
-				log.Println("Ошибка при закрытии Kafka:", err)
-			}
-		}()
-
-		// Настройка роутера
-		r := mux.NewRouter()
-		r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST")
-
-		log.Println("API Gateway запущен на порту:", port)
-		if err := http.ListenAndServe(":"+port, r); err != nil {
-			log.Fatal("Ошибка сервера:", err)
-		}
-	}
-*/
 package main
 
 import (
@@ -61,6 +10,7 @@ import (
 	"api-gateway/middleware"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -88,10 +38,21 @@ func main() {
 
 	// Настройка роутера
 	r := mux.NewRouter()
-	r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST")
+	r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST", "OPTIONS")
+
+	// Настройка CORS
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173", "http://127.0.0.1:5173"}, // Здесь указывайте домены, которым разрешен доступ
+		AllowedMethods:   []string{"POST", "GET", "OPTIONS"},                         // Разрешенные методы
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},                  // Разрешенные заголовки
+		AllowCredentials: true,                                                       // Разрешаем отправку куков
+	})
+
+	// Обертываем роутер в middleware CORS
+	handler := corsHandler.Handler(r)
 
 	log.Println("API Gateway запущен на порту:", port)
-	if err := http.ListenAndServe(":"+port, r); err != nil {
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		log.Fatal("Ошибка сервера:", err)
 	}
 }

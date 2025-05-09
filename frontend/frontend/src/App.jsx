@@ -43,7 +43,7 @@ const App = () => {
       <div className='content'>
         <div className='text-field'>
           <div>
-            <p className='HighText'>How can I help you?</p>
+            <p className='HighText'>Чем могу помочь?</p>
           </div>
           <div>
             <p className='RegularText'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis illum, aperiam eum laudantium impedit rerum?</p>
