@@ -1,0 +1,80 @@
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .login-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  .loginform {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    min-width: 300px;
+    max-width: 90%;
+  }
+  
+  .loginform.visible {
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .close:hover {
+    color: black;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .btn.login {
+    width: 100%;
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn.login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  

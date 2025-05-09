@@ -109,7 +109,7 @@ const FloatingCircles = () => {
       const dy = mouse.y - l.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist < 200) {
+      if (dist < 300) {
         l.x += dx * 0.02;
         l.y += dy * 0.02;
       } else {

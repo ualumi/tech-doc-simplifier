@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 )
 
 func init() {
@@ -22,8 +23,17 @@ func main() {
 	db.InitRedis()
 	go kafka.StartConsumer()
 
-	http.HandleFunc("/registration", handlers.RegisterHandler)
-	http.HandleFunc("/login", handlers.LoginHandler) // добавили
+	mux := http.NewServeMux()
+	mux.HandleFunc("/registration", handlers.RegisterHandler)
+	mux.HandleFunc("/login", handlers.LoginHandler)
+
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173", "http://127.0.0.1:5173"},
+		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+		Debug:            true, // 👈 включи логирование CORS
+	}).Handler(mux)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -31,6 +41,5 @@ func main() {
 	}
 
 	log.Println("Auth service running on port", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
-
+	log.Fatal(http.ListenAndServe(":"+port, corsHandler))
 }
