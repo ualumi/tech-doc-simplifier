@@ -2,7 +2,7 @@
 Преобразование технической документации в пользовательские инструкции
 
 docker-compose up --build
-docker restart auth-service
+docker restart api-gateway auth-service text-service model-service
 
 Добавление нового топика:
 1.

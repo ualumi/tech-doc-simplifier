@@ -104,6 +104,7 @@ button:focus-visible {
 
 body{
   background-color: black;
+  color: #ffffff;
   font-family: loos;
   overflow: hidden;
 }

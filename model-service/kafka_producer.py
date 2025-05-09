@@ -16,14 +16,17 @@ def send_result_to_kafka(result: dict, correlation_id: str):
 
     producer = KafkaProducer(
         bootstrap_servers=KAFKA_BROKER,
-        # без value_serializer
+        # можно также задать value_serializer здесь, но сейчас оставим явное кодирование
     )
 
-    print(f"Sending model response to topic: key={correlation_id}, value={result}")
+    # Используем ensure_ascii=False, чтобы сохранить кириллицу как есть
+    message = json.dumps(result, ensure_ascii=False).encode('utf-8')
+
+    print(f"Sending model response to topic: key={correlation_id}, value={json.dumps(result, ensure_ascii=False)}")
     producer.send(
         RESPONSE_TOPIC,
         key=correlation_id.encode('utf-8'),
-        value=json.dumps(result).encode('utf-8')
+        value=message
     )
 
 
