@@ -54,6 +54,9 @@ import (
 
 var responseReader *kafka.Reader
 
+// new one
+var resultResponseReader *kafka.Reader
+
 func InitConsumer(broker, topic string) {
 	log.Printf("[Kafka InitConsumer] Initializing consumer for topic '%s' at broker '%s'\n", topic, broker)
 
@@ -82,7 +85,7 @@ func InitConsumer(broker, topic string) {
 
 func ReadResponse(correlationID string) (string, error) {
 	// Устанавливаем таймаут
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
 	defer cancel()
 
 	log.Printf("[Kafka ReadResponse] Waiting for response with correlationID: %s\n", correlationID)
@@ -115,4 +118,42 @@ func CloseConsumer() error {
 		return responseReader.Close()
 	}
 	return nil
+}
+
+// new one
+func InitResultResponseConsumer(broker string) {
+	const topic = "result_response"
+	log.Printf("[Kafka InitResultResponseConsumer] Initializing consumer for topic '%s'\n", topic)
+
+	resultResponseReader = kafka.NewReader(kafka.ReaderConfig{
+		Brokers:  []string{broker},
+		Topic:    topic,
+		GroupID:  "", // сохраняем offset
+		MinBytes: 10e3,
+		MaxBytes: 10e6,
+	})
+
+	log.Println("[Kafka InitResultResponseConsumer] Consumer for result_response initialized")
+}
+
+func ReadResultResponse(correlationID string) (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
+	defer cancel()
+
+	log.Printf("[Kafka ReadResultResponse] Waiting for response with correlationID: %s\n", correlationID)
+
+	for {
+		m, err := resultResponseReader.ReadMessage(ctx)
+		if err != nil {
+			log.Printf("[Kafka ReadResultResponse] Error while reading message: %v\n", err)
+			return "", err
+		}
+
+		log.Printf("[Kafka ReadResultResponse] Received message: key=%s, value=%s\n", string(m.Key), string(m.Value))
+
+		if string(m.Key) == correlationID {
+			log.Printf("[Kafka ReadResultResponse] Found matching response for correlationID: %s\n", correlationID)
+			return string(m.Value), nil
+		}
+	}
 }

@@ -46,6 +46,8 @@ services:
     environment:
       - KAFKA_BROKER=broker:9092
       - KAFKA_RESPONSE_TOPIC=model_response
+      - KAFKA_HISTORY_REQUEST_TOPIC=result_request
+      - KAFKA_HISTORY_RESPONSE_TOPIC=result_response
     networks:
       - kafka-net
 
@@ -124,6 +126,25 @@ services:
       - REDIS_ADDR=redis:6379
     networks:
       - kafka-net
+
+  result-writer:
+    build:
+      context: ./result-writer
+    container_name: result-writer
+    depends_on:
+      - broker
+      - redis
+      - user-db
+    environment:
+      - KAFKA_BROKER=broker:9092
+      - KAFKA_TOPIC=model_response
+      - KAFKA_REQUEST_TOPIC=result_request
+      - KAFKA_RESPONSE_TOPIC=result_response
+      - REDIS_ADDR=redis:6379
+      - POSTGRES_DSN=postgresql://postgres:postgres@user-db:5432/users_info?sslmode=disable
+    networks:
+      - kafka-net
+
 
 
 

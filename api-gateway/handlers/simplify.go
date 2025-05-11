@@ -3,11 +3,10 @@ package handlers
 import (
 	"api-gateway/config"
 	"api-gateway/kafka"
+	"api-gateway/middleware"
 	"encoding/json"
 	"net/http"
 	"strings"
-
-	"github.com/google/uuid"
 )
 
 type SimplifyRequest struct {
@@ -35,10 +34,10 @@ func SimplifyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	corrID := uuid.New().String()
+	// Получаем correlation ID из контекста
+	corrID := middleware.GetCorrelationID(r.Context())
 
-	err := kafka.PublishSimplifyRequest(corrID, req.Text, token)
-	if err != nil {
+	if err := kafka.PublishSimplifyRequest(corrID, req.Text, token); err != nil {
 		http.Error(w, "Failed to send request: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -49,11 +48,9 @@ func SimplifyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Извлекаем фактический user response
 	userParts := strings.SplitN(userRaw, ":", 2)
-	userResp := strings.TrimSpace(userParts[len(userParts)-1]) // на случай, если нет ':'
+	userResp := strings.TrimSpace(userParts[len(userParts)-1])
 
-	// Если Unauthorized — сразу ответ
 	if userResp == "Unauthorized" {
 		resp := SimplifyFullResponse{
 			UserResponse:  userResp,

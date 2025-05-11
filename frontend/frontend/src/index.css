@@ -80,7 +80,7 @@ button:focus-visible {
 }
 
 .HighText{
-  color: #ffffff;
+  color: black;
   font-size: 6vh;
   text-align: center;
   margin: 0px;
@@ -91,7 +91,7 @@ button:focus-visible {
 }
 
 .RegularText{
-  color: #ffffff;
+  color: black;
   font-size: 2vh;
   text-align: center;
   text-decoration: none;
@@ -102,9 +102,13 @@ button:focus-visible {
   width: 70vh;
 }
 
+.response{
+  color: black;
+}
+
 body{
-  background-color: black;
-  color: #ffffff;
+  background-color: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), linear-gradient(152.41deg, rgba(199, 190, 255, 0.4) 17.16%, rgba(255, 224, 114, 0.4) 74.11%), ;
+  color: black;
   font-family: loos;
   overflow: hidden;
 }
@@ -128,13 +132,8 @@ button{
 }
 
 .main-content{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  margin-left: 50px;
-  margin-right: 50px;
-  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
 
 .content{
@@ -176,7 +175,6 @@ button{
 }
 
 .navbar{
-  width: 95vw;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -214,62 +212,5 @@ ul {
   justify-content: right;
 }
 
-.floating-circles-container {
-  position: fixed;
-  inset: 0;
-  z-index: -1; /* за всеми элементами */
-  overflow: hidden;
-}
 
-/*.circle {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: rgba(100, 149, 237, 0.4);
-  border-radius: 50%;
-  pointer-events: none;
-}*/
-
-.floating-circles-container {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.circle {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-}
-
-
-
-/* Первая окружность */
-.circle-1 {
-  /*background: radial-gradient(47.3% 47.5% at 44.99% 59.52%, #00E29A 0%, rgba(0, 226, 154, 0) 100%);*/
-  /*filter: blur(37.5618px);*/
-  background: radial-gradient(217.68% 217.68% at 27.97% 49.05%, #5AE9FD 0%, rgba(90, 233, 253, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-  border: 20.8557px solid #00E29A;
-  filter: blur(49.6988px);
-}
-
-/* Вторая окружность */
-.circle-2 {
-  /*background: radial-gradient(34.08% 34.22% at 66% 27.65%, #7C75FF 0%, rgba(72, 78, 183, 0) 100%, rgba(159, 167, 255, 0) 100%);
-  mix-blend-mode: color-dodge;
-  filter: blur(60.323px);*/
-  background: #FE63C1;
-  mix-blend-mode: lighten;
-  filter: blur(58.7917px);
-}
-
-/* Третья окружность */
-.circle-3 {
-  background: radial-gradient(158.99% 50% at 50% 50%, #8B78FF 0%, rgba(99, 73, 255, 0.37) 100%);
-  mix-blend-mode: color-dodge;
-  filter: blur(60.323px);
-}
 

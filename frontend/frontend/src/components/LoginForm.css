@@ -78,3 +78,29 @@
     margin-top: 10px;
   }
   
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .tabs button {
+    padding: 8px 16px;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 4px;
+    border-radius: 4px 4px 0 0;
+    transition: background 0.2s;
+  }
+  
+  .tabs button.active {
+    background: #fff;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .loginform form input[type="submit"] {
+    margin-top: 12px;
+  }
+  

@@ -3,6 +3,7 @@ package kafka
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"time"
 
 	"github.com/segmentio/kafka-go"
@@ -55,6 +56,47 @@ func PublishSimplifyRequest(correlationID, text, token string) error {
 	}
 
 	return writer.WriteMessages(ctx, msg)
+}
+
+// ДЛЯ /history
+var writerResultRequest *kafka.Writer
+
+// InitResultRequestProducer инициализирует Kafka writer для топика result_request
+func InitResultRequestProducer(broker string) {
+	writerResultRequest = &kafka.Writer{
+		Addr:  kafka.TCP(broker),
+		Topic: "result_request",
+	}
+}
+
+// PublishResultRequest отправляет токен по ключу (correlationID) в топик result_request
+func PublishResultRequest(correlationID, token string) error {
+	request := map[string]string{
+		"token": token,
+	}
+
+	messageBytes, err := json.Marshal(request)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("[Kafka PublishResultRequest] Sending request with correlationID: %s, token: %s\n", correlationID, token)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	msg := kafka.Message{
+		Key:   []byte(correlationID),
+		Value: messageBytes,
+	}
+
+	return writerResultRequest.WriteMessages(ctx, msg)
+}
+
+func CloseResultRequestProducer() error {
+	if writerResultRequest != nil {
+		return writerResultRequest.Close()
+	}
+	return nil
 }
 
 /*package kafka

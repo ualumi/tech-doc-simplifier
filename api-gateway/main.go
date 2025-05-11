@@ -36,9 +36,20 @@ func main() {
 		}
 	}()
 
+	//for /history
+	kafka.InitResultResponseConsumer(kafkaBroker)
+
+	kafka.InitResultRequestProducer(kafkaBroker)
+	defer func() {
+		if err := kafka.CloseResultRequestProducer(); err != nil {
+			log.Printf("Failed to close result request producer: %v", err)
+		}
+	}()
+
 	// Настройка роутера
-	r := mux.NewRouter()
+	/*r := mux.NewRouter()
 	r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST", "OPTIONS")
+	r.Handle("/history", middleware.AuthMiddleware(http.HandlerFunc(handlers.HistoryHandler))).Methods("GET", "OPTIONS")
 
 	// Настройка CORS
 	corsHandler := cors.New(cors.Options{
@@ -50,6 +61,31 @@ func main() {
 
 	// Обертываем роутер в middleware CORS
 	handler := corsHandler.Handler(r)
+
+	log.Println("API Gateway запущен на порту:", port)
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
+		log.Fatal("Ошибка сервера:", err)
+	}*/
+	// Ваш текущий роутер
+	r := mux.NewRouter()
+
+	// Роуты с middleware
+	r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST", "OPTIONS")
+	r.Handle("/history", middleware.AuthMiddleware(http.HandlerFunc(handlers.HistoryHandler))).Methods("GET", "OPTIONS")
+
+	// Обернуть роутер в CorrelationIDMiddleware
+	wrappedRouter := middleware.CorrelationIDMiddleware(r)
+
+	// Настройка CORS
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173", "http://127.0.0.1:5173"},
+		AllowedMethods:   []string{"POST", "GET", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	})
+
+	// Обертываем middleware CORS поверх уже обернутого роутера
+	handler := corsHandler.Handler(wrappedRouter)
 
 	log.Println("API Gateway запущен на порту:", port)
 	if err := http.ListenAndServe(":"+port, handler); err != nil {
