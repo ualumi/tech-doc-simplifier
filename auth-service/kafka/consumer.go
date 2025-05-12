@@ -64,7 +64,6 @@ func StartConsumer() {
 		if db.CheckToken(request.Token) {
 			response = "Token valid"
 
-			// Отправляем запрос в text_request с тем же ключом
 			err := forwardWriter.WriteMessages(context.Background(), kafka.Message{
 				Key:   msg.Key,
 				Value: msg.Value,
@@ -80,7 +79,6 @@ func StartConsumer() {
 
 		log.Printf("Sending response: %s", response)
 
-		// ОБЯЗАТЕЛЬНО отправляем ответ с тем же ключом, что был у запроса
 		err = responseWriter.WriteMessages(context.Background(), kafka.Message{
 			Key:   msg.Key,
 			Value: []byte(response),

@@ -70,7 +70,7 @@ const NavBar = ({ isAuthenticated, username, onLoginClick, onLogout }) => {
       <ul className="nav-links">
         <li><a className="RegularText" href="/about">О нас</a></li>
         <li><a className="RegularText" href="/simplifier">ИИ</a></li>
-        <li><a className="RegularText" href="/api">API</a></li>
+        <li><a className="RegularText" href="/api">Прочее</a></li>
         <li><a className="RegularText" href="/misc">Прочее</a></li>
       </ul>
 

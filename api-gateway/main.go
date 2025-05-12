@@ -20,7 +20,6 @@ func main() {
 	kafkaTopic := config.GetEnv("KAFKA_TOPIC", "user_requests")
 	port := config.GetEnv("PORT", "8080")
 
-	// Инициализируем Kafka-консьюмер ДО отправки сообщений
 	kafka.InitConsumer(kafkaBroker, "user_responses")
 	defer func() {
 		if err := kafka.CloseConsumer(); err != nil {
@@ -28,7 +27,6 @@ func main() {
 		}
 	}()
 
-	// Инициализируем Kafka-писатель
 	kafka.InitProducer(kafkaBroker, kafkaTopic)
 	defer func() {
 		if err := kafka.CloseProducer(); err != nil {
@@ -66,17 +64,14 @@ func main() {
 	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		log.Fatal("Ошибка сервера:", err)
 	}*/
-	// Ваш текущий роутер
+
 	r := mux.NewRouter()
 
-	// Роуты с middleware
 	r.Handle("/simplify", middleware.AuthMiddleware(http.HandlerFunc(handlers.SimplifyHandler))).Methods("POST", "OPTIONS")
 	r.Handle("/history", middleware.AuthMiddleware(http.HandlerFunc(handlers.HistoryHandler))).Methods("GET", "OPTIONS")
 
-	// Обернуть роутер в CorrelationIDMiddleware
 	wrappedRouter := middleware.CorrelationIDMiddleware(r)
 
-	// Настройка CORS
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:5173", "http://127.0.0.1:5173"},
 		AllowedMethods:   []string{"POST", "GET", "OPTIONS"},
@@ -84,7 +79,6 @@ func main() {
 		AllowCredentials: true,
 	})
 
-	// Обертываем middleware CORS поверх уже обернутого роутера
 	handler := corsHandler.Handler(wrappedRouter)
 
 	log.Println("API Gateway запущен на порту:", port)

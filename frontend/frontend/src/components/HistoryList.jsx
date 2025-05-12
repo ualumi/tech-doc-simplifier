@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 import HistoryItem from './HistoryItem';
+import './HistoryList.css';
 
 const groupByDate = (items) => {
   const today = new Date();
@@ -31,7 +32,7 @@ const groupByDate = (items) => {
   return groups;
 };
 
-const HistoryList = ({ token }) => {
+const HistoryList = ({ token, onSelect }) => {
   const [historyGroups, setHistoryGroups] = useState(null);
   const [error, setError] = useState('');
 
@@ -42,7 +43,7 @@ const HistoryList = ({ token }) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          validateStatus: () => true, // Обрабатываем все статусы вручную
+          validateStatus: () => true,
         });
 
         if (res.status === 500) {
@@ -73,7 +74,7 @@ const HistoryList = ({ token }) => {
   }, [token]);
 
   return (
-    <div className="max-w-2xl mx-auto mt-4">
+    <div className="historycontent">
       <h2 className="text-xl font-bold mb-4">История упрощений</h2>
 
       {error ? (
@@ -91,6 +92,13 @@ const HistoryList = ({ token }) => {
                   original={item.original}
                   simplified={item.simplified}
                   createdAt={item.created_at}
+                  onClick={() =>
+                    onSelect({
+                      original: item.original,
+                      simplified: item.simplified,
+                      createdAt: item.created_at
+                    })
+                  }
                 />
               ))}
             </div>

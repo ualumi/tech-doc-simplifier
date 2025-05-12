@@ -4,7 +4,8 @@ import TextInputSender from './components/TextInputSender.jsx';
 import NavBar from './components/NavBar.jsx';
 import ResponseViewer from './components/ResponseViewer.jsx';
 import HistoryList from './components/HistoryList.jsx';
-import ChatHistory from './components/ChatHistory.jsx'
+import ChatHistory from './components/ChatHistory.jsx';
+import ChatDetail from './components/ChatDetail.jsx'; 
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -12,6 +13,8 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [response, setResponse] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
+
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -50,7 +53,7 @@ const App = () => {
     
     <div className="main-content">
       <div>
-        {token && <HistoryList token={token} />}
+      {token && <HistoryList token={token} onSelect={setSelectedChat} />}
       </div>
       <div>
       <div>
@@ -83,7 +86,16 @@ const App = () => {
           </div>
           
           <div className="input-field">
-            <ChatHistory messages={messages} />
+            <div>
+              {selectedChat ? (
+                <ChatDetail
+                  original={selectedChat.original}
+                  simplified={selectedChat.simplified}
+                />
+              ) : (
+                <ChatHistory messages={messages} />
+              )}
+            </div>
             <TextInputSender
               token={token}
               onTriggerLogin={() => {

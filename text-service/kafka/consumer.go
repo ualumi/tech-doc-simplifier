@@ -49,7 +49,6 @@ func StartResponseConsumer() {
 			value := string(m.Value)
 			log.Printf("Received model response: key=%s, value=%s", key, value)
 
-			// Сохраняем результат в Redis
 			redis.SaveResult(key, value)
 		}
 	}()

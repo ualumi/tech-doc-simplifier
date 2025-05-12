@@ -32,7 +32,7 @@ func main() {
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
-		Debug:            true, // 👈 включи логирование CORS
+		Debug:            true,
 	}).Handler(mux)
 
 	port := os.Getenv("PORT")

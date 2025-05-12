@@ -7,7 +7,7 @@ from kafka_producer import send_result_to_kafka
 KAFKA_BROKER = os.getenv("KAFKA_BROKER", "broker:9092")
 REQUEST_TOPIC = os.getenv("KAFKA_REQUEST_TOPIC", "model_requests")
 
-# Не создаём consumer при импорте!
+
 consumer = None
 
 def init_consumer():

@@ -18,7 +18,6 @@ func InitProducer(broker string, topic string) {
 	}
 }
 
-// CloseProducer closes the Kafka writer to release resources
 func CloseProducer() error {
 	if writer != nil {
 		return writer.Close()
@@ -26,33 +25,28 @@ func CloseProducer() error {
 	return nil
 }
 
-// Struct for Kafka message payload
 type SimplifyRequest struct {
 	Text  string `json:"text"`
 	Token string `json:"token"`
 }
 
-// PublishSimplifyRequest publishes a message with correlationID, text, and token to Kafka
 func PublishSimplifyRequest(correlationID, text, token string) error {
-	// Create the message object with text and token
 	message := SimplifyRequest{
 		Text:  text,
 		Token: token,
 	}
 
-	// Serialize the message to JSON
 	messageBytes, err := json.Marshal(message)
 	if err != nil {
 		return err
 	}
 
-	// Publish the message to Kafka
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	msg := kafka.Message{
-		Key:   []byte(correlationID), // Use the correlation ID as the message key
-		Value: messageBytes,          // Send the serialized JSON message
+		Key:   []byte(correlationID),
+		Value: messageBytes,
 	}
 
 	return writer.WriteMessages(ctx, msg)
@@ -61,7 +55,6 @@ func PublishSimplifyRequest(correlationID, text, token string) error {
 // ДЛЯ /history
 var writerResultRequest *kafka.Writer
 
-// InitResultRequestProducer инициализирует Kafka writer для топика result_request
 func InitResultRequestProducer(broker string) {
 	writerResultRequest = &kafka.Writer{
 		Addr:  kafka.TCP(broker),
@@ -69,7 +62,6 @@ func InitResultRequestProducer(broker string) {
 	}
 }
 
-// PublishResultRequest отправляет токен по ключу (correlationID) в топик result_request
 func PublishResultRequest(correlationID, token string) error {
 	request := map[string]string{
 		"token": token,

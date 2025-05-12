@@ -108,7 +108,6 @@ def init_producer():
     if producer is None:
         producer = KafkaProducer(
             bootstrap_servers=KAFKA_BROKER,
-            #value_serializer=lambda v: json.dumps(v, ensure_ascii=False).encode('utf-8')
         )
 
 def send_result_to_kafka(result: dict, correlation_id: str):
