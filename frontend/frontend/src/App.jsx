@@ -52,6 +52,7 @@ const App = () => {
     //}
 
      // 👇 переключаем флаг, чтобы HistoryList знал, что нужно обновиться
+    setSelectedChat(null);
     setHistoryRefreshToggle(prev => !prev);
   };
 
@@ -60,7 +61,10 @@ const App = () => {
     
     <div className="main-content">
       <div className='history'>
-      <NewChatButton onNewChat={() => setSelectedChat(null)} />
+      <NewChatButton onNewChat={() => {
+        setSelectedChat(null);
+        setResponse(null); // 👈 вот эта строка очищает старый ответ
+      }} />
       {token && <HistoryList token={token} onSelect={setSelectedChat} refreshTrigger={historyRefreshToggle} />}
       </div>
       <div className='chat'>
