@@ -16,6 +16,7 @@ const App = () => {
   const [response, setResponse] = useState(null);
   const [messages, setMessages] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [historyRefreshToggle, setHistoryRefreshToggle] = useState(false);
 
 
   useEffect(() => {
@@ -44,11 +45,14 @@ const App = () => {
   };
 
   const handleNewMessage = (response) => {
-    if (response.original && response.simplified) {
-      setMessages((prev) => [...prev, response]);
-    } else {
-      setMessages((prev) => [...prev, { original: lastInput, simplified: response }]);
-    }
+    //if (response.original && response.simplified) {
+    //  setMessages((prev) => [...prev, response]);
+    //} else {
+    //  setMessages((prev) => [...prev, { original: lastInput, simplified: response }]);
+    //}
+
+     // 👇 переключаем флаг, чтобы HistoryList знал, что нужно обновиться
+    setHistoryRefreshToggle(prev => !prev);
   };
 
 
@@ -57,7 +61,7 @@ const App = () => {
     <div className="main-content">
       <div className='history'>
       <NewChatButton onNewChat={() => setSelectedChat(null)} />
-      {token && <HistoryList token={token} onSelect={setSelectedChat} />}
+      {token && <HistoryList token={token} onSelect={setSelectedChat} refreshTrigger={historyRefreshToggle} />}
       </div>
       <div className='chat'>
         <div>
@@ -107,6 +111,7 @@ const App = () => {
                 setShowLogin(true);
               }}
               onResponse={setResponse}
+              onMessageAdd={handleNewMessage} 
               disabled={!!selectedChat}
             />
             

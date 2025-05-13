@@ -243,7 +243,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { parseModelResponse } from './helpers/parseModelResponse.js';
 
-const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
+const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) => {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -291,6 +291,14 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
           original: original || userInput,
           simplified: simplified || 'Не удалось извлечь упрощённый текст',
         });
+
+        if (onMessageAdd) {
+          onMessageAdd({
+            original: original || userInput,
+            simplified: simplified || 'Не удалось извлечь упрощённый текст',
+          });
+        }
+
       } else {
         onResponse({
           original: userInput,
