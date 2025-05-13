@@ -6,6 +6,8 @@ import ResponseViewer from './components/ResponseViewer.jsx';
 import HistoryList from './components/HistoryList.jsx';
 import ChatHistory from './components/ChatHistory.jsx';
 import ChatDetail from './components/ChatDetail.jsx'; 
+import NewChatButton from './components/NewChatButton.jsx';
+import { parseSimplifiedText } from './components/helpers/parseSimplified.js';
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -49,20 +51,22 @@ const App = () => {
     }
   };
 
+
   return (
     
     <div className="main-content">
-      <div>
+      <div className='history'>
+      <NewChatButton onNewChat={() => setSelectedChat(null)} />
       {token && <HistoryList token={token} onSelect={setSelectedChat} />}
       </div>
-      <div>
-      <div>
-        <NavBar
-          isAuthenticated={!!token}
-          username={username}
-          onLoginClick={() => setShowLogin(true)}
-          onLogout={handleLogout}
-        />
+      <div className='chat'>
+        <div>
+          <NavBar
+            isAuthenticated={!!token}
+            username={username}
+            onLoginClick={() => setShowLogin(true)}
+            onLogout={handleLogout}
+          />
         </div>
 
         <div className='content'>
@@ -103,8 +107,16 @@ const App = () => {
                 setShowLogin(true);
               }}
               onResponse={setResponse}
+              disabled={!!selectedChat}
             />
-            <ResponseViewer response={response} />
+            
+            {response && !selectedChat && (
+              <ChatDetail 
+                original={response.original || ''}
+                simplified={response.simplified || ''}
+                createdAt={response.createdAt || new Date().toISOString()}
+              />
+            )}
           </div>
         </div>
       </div>

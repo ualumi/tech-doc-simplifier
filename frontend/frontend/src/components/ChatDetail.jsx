@@ -1,6 +1,7 @@
 import React from 'react';
 
 const ChatDetail = ({ original, simplified }) => {
+    console.log('👁 simplified в ChatDetail:', simplified);
   return (
     <div className="p-4 border rounded-md shadow bg-white">
       <div className="mb-4">

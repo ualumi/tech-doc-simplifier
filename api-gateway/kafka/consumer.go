@@ -85,7 +85,7 @@ func InitConsumer(broker, topic string) {
 
 func ReadResponse(correlationID string) (string, error) {
 	// Устанавливаем таймаут
-	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 90*time.Second)
 	defer cancel()
 
 	log.Printf("[Kafka ReadResponse] Waiting for response with correlationID: %s\n", correlationID)
@@ -137,7 +137,7 @@ func InitResultResponseConsumer(broker string) {
 }
 
 func ReadResultResponse(correlationID string) (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 90*time.Second)
 	defer cancel()
 
 	log.Printf("[Kafka ReadResultResponse] Waiting for response with correlationID: %s\n", correlationID)

@@ -68,7 +68,10 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
 
 export default TextInputSender;*/}
 
-import React, { useState } from 'react';
+
+
+
+{/*import React, { useState } from 'react';
 import axios from 'axios';
 
 const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
@@ -87,7 +90,7 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
 
     const userInput = text;
     setText('');
-    onResponse({ original: userInput, simplified: '...' }); // Показать до ответа
+    onResponse({ original: userInput, }); // Показать до ответа
 
     try {
       setLoading(true);
@@ -116,6 +119,190 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
     } catch (error) {
       console.error('❌ Ошибка отправки:', error);
       onResponse({ original: userInput, simplified: 'Ошибка при отправке текста' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-4 flex gap-2">
+      <input
+        type="text"
+        className="InputText flex-1 p-2 border rounded"
+        placeholder="Введите текст..."
+        value={text}
+        onClick={handleInputClick}
+        readOnly={!token}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button
+        onClick={handleSend}
+        disabled={!token || loading}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+      >
+        {loading ? 'Отправка...' : 'Отправить'}
+      </button>
+    </div>
+  );
+};
+
+export default TextInputSender;*/}
+
+
+{/*import React, { useState } from 'react';
+import axios from 'axios';
+import { parseModelResponse } from './helpers/parseModelResponse.js';
+
+const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleInputClick = () => {
+    if (!token) {
+      console.log('Клик по input без токена');
+      onTriggerLogin();
+    }
+  };
+
+  const handleSend = async () => {
+    if (!token || !text.trim()) return;
+
+    const userInput = text;
+    setText('');
+    onResponse({ original: userInput }); // Показать пока ждём ответ
+
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        'http://localhost:8080/simplify',
+        { text: userInput },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          validateStatus: () => true,
+        }
+      );
+
+      // ✅ ЛОГ ОТВЕТА ОТ БЭКЕНДА
+      console.log('Ответ от сервера:', res.data);
+
+      if (res.status === 401) {
+        console.warn('⛔ Unauthorized – вызываем форму входа');
+        onTriggerLogin();
+        return;
+      }
+
+      if (res.status >= 200 && res.status < 300) {
+        const { original, simplified } = parseModelResponse(res.data.model_response);
+        console.log('🎯 Парсинг прошёл успешно:', { original, simplified });
+        onResponse({ original, simplified }); // 👈 Исправили здесь
+      } else {
+        onResponse({
+          original: userInput,
+          simplified: 'Ошибка при отправке текста',
+        });
+      }
+    } catch (error) {
+      console.error('❌ Ошибка отправки:', error);
+      onResponse({
+        original: userInput,
+        simplified: 'Ошибка при отправке текста',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-4 flex gap-2">
+      <input
+        type="text"
+        className="InputText flex-1 p-2 border rounded"
+        placeholder="Введите текст..."
+        value={text}
+        onClick={handleInputClick}
+        readOnly={!token}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button
+        onClick={handleSend}
+        disabled={!token || loading}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+      >
+        {loading ? 'Отправка...' : 'Отправить'}
+      </button>
+    </div>
+  );
+};
+
+export default TextInputSender;*/}
+
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import { parseModelResponse } from './helpers/parseModelResponse.js';
+
+const TextInputSender = ({ token, onTriggerLogin, onResponse }) => {
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleInputClick = () => {
+    if (!token) {
+      console.log('Клик по input без токена');
+      onTriggerLogin();
+    }
+  };
+
+  const handleSend = async () => {
+    if (!token || !text.trim()) return;
+
+    const userInput = text;
+    setText('');
+    onResponse({ original: userInput }); // Предварительный отклик
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post(
+        'http://localhost:8080/simplify',
+        { text: userInput },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          validateStatus: () => true,
+        }
+      );
+
+      console.log('✅ Ответ от сервера:', res.data);
+
+      if (res.status === 401) {
+        console.warn('⛔ Unauthorized – вызываем форму входа');
+        onTriggerLogin();
+        return;
+      }
+
+      if (res.status >= 200 && res.status < 300) {
+        const { original, simplified } = parseModelResponse(res.data.model_response);
+        console.log('🎯 Парсинг прошёл успешно:', { original, simplified });
+
+        onResponse({
+          original: original || userInput,
+          simplified: simplified || 'Не удалось извлечь упрощённый текст',
+        });
+      } else {
+        onResponse({
+          original: userInput,
+          simplified: 'Ошибка при отправке текста',
+        });
+      }
+    } catch (error) {
+      console.error('❌ Ошибка отправки:', error);
+      onResponse({
+        original: userInput,
+        simplified: 'Ошибка при отправке текста',
+      });
     } finally {
       setLoading(false);
     }
