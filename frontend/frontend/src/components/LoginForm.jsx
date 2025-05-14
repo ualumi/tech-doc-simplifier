@@ -122,7 +122,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
         withCredentials: true
       });
 
-      onLoginSuccess(res.data.token);
+      onLoginSuccess(res.data.token, username);
     } catch (err) {
       setError('Неверный логин или пароль');
     } finally {
@@ -144,13 +144,16 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
         withCredentials: true
       });
 
-      onLoginSuccess(res.data.token);
+      // Если регистрация прошла успешно, сразу логиним
+      await handleLogin(); // <--- авто-логин после регистрации
+
     } catch (err) {
       setError('Ошибка регистрации. Возможно, пользователь уже существует.');
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleClose = () => {
     setVisible(false);

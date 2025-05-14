@@ -21,20 +21,24 @@ const App = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+    const storedUsername = localStorage.getItem('username');
     if (storedToken) {
       setToken(storedToken);
+      if (storedUsername) {
+        setUsername(storedUsername);
+      }
     }
   }, []);
 
-  const handleLoginSuccess = (newToken) => {
+  const handleLoginSuccess = (newToken, username) => {
     localStorage.setItem('token', newToken);
+    localStorage.setItem('username', username);
     setToken(newToken);
-  
-    // Раскодируй JWT или запроси имя пользователя с сервера — временно можно заглушку:
-    const mockUsername = 'Ivan'; // ← замени на реальное имя, полученное с сервера
-    setUsername(mockUsername);
-  
+    setUsername(username); // ← имя, введённое пользователем
+    setSelectedChat(null);
     setShowLogin(false);
+
+    setSelectedChat(null);
   };
 
   const handleLogout = () => {
