@@ -113,6 +113,7 @@ const App = () => {
               )}
             </div>
             <TextInputSender
+              key={selectedChat ? selectedChat.id : `new-${response ? response.original : Date.now()}`}
               token={token}
               onTriggerLogin={() => {
                 console.log('Запрос на логин');
