@@ -319,6 +319,28 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
   return (
     <div className="mt-4 flex gap-2">
       <input
+        type="file"
+        accept=".txt"
+        onChange={async (e) => {
+          const file = e.target.files[0];
+          if (file && token) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const fileText = event.target.result;
+              setText(fileText);        // заполняем поле
+              setTimeout(() => handleSend(), 100); // отправляем после установки текста
+            };
+            reader.readAsText(file);
+          } else if (!token) {
+            onTriggerLogin();
+          }
+        }}
+        className="file-input"
+      />
+
+
+
+      <input
         type="text"
         className="InputText flex-1 p-2 border rounded"
         placeholder="Введите текст..."
@@ -327,6 +349,7 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
         readOnly={!token}
         onChange={(e) => setText(e.target.value)}
       />
+      
       <button
         onClick={handleSend}
         disabled={!token || loading}
