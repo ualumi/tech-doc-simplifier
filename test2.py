@@ -4,7 +4,7 @@ import requests
 URL = "http://localhost:8080/history"
 
 # Токен должен быть реальным — тот, который есть в Redis
-TOKEN = "083a4abf-ffe0-4c81-8a19-9e0b78a748b7"
+TOKEN = "fdb459f2-0cfe-4fd1-b412-d311fcbd5284"
 
 headers = {
     "Authorization": f"Bearer {TOKEN}"

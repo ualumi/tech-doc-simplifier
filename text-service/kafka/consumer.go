@@ -3,7 +3,6 @@ package kafka
 import (
 	"context"
 	"log"
-	"text-service/redis"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -30,7 +29,7 @@ func StartUserRequestConsumer(msgChan chan kafka.Message) {
 }
 
 // StartResponseConsumer подписывается на model_response и сохраняет результат в Redis
-func StartResponseConsumer() {
+/*func StartResponseConsumer() {
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: []string{"broker:9092"},
 		Topic:   "model_response",
@@ -52,4 +51,4 @@ func StartResponseConsumer() {
 			redis.SaveResult(key, value)
 		}
 	}()
-}
+}*/

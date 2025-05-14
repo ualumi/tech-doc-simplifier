@@ -22,7 +22,7 @@ func InitProducer() {
 
 	responseWriter = &kafka.Writer{
 		Addr:     kafka.TCP("broker:9092"),
-		Topic:    "simplified_response",
+		Topic:    "model_response",
 		Balancer: &kafka.LeastBytes{},
 	}
 }
