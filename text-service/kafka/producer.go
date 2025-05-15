@@ -8,6 +8,24 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
+// новое
+type OriginalPayload struct {
+	Text  string `json:"text"`
+	Token string `json:"token"`
+}
+
+type SimplifiedPayload struct {
+	Text  string `json:"text"`
+	Token string `json:"token"`
+}
+
+type KafkaMessage struct {
+	Original   OriginalPayload   `json:"original"`
+	Simplified SimplifiedPayload `json:"simplified"`
+}
+
+//новое закончилось
+
 var (
 	requestWriter  *kafka.Writer
 	responseWriter *kafka.Writer

@@ -1,4 +1,4 @@
-module result-writter
+module result-writer
 
 go 1.24.2
 

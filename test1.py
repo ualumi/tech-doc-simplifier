@@ -2,9 +2,9 @@ import requests
 
 url = "http://localhost:8081/registration"
 data = {
-    "email": "test@example.com",
-    "login": "testuser",
-    "password": "securepassword123"
+    "email": "test@example1.com",
+    "login": "test",
+    "password": "securepassword1231"
 }
 
 response = requests.post(url, json=data)
@@ -16,8 +16,8 @@ import requests
 
 url = "http://localhost:8081/login"
 data = {
-    "login": "testuser",
-    "password": "securepassword123"
+    "login": "test",
+    "password": "securepassword1231"
 }
 
 response = requests.post(url, json=data)

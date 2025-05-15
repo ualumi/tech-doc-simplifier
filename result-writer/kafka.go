@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"result-writer/utils"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/segmentio/kafka-go"
@@ -39,11 +40,15 @@ func StartKafkaConsumer(cfg Config, redisClient *redis.Client, db *gorm.DB) {
 			msg.Original.Token, msg.Original.Text, msg.Simplified.Text)
 
 		// Сохраняем в Redis
-		err = redisClient.Set(ctx, msg.Original.Token+":result", m.Value, 0).Err()
+		// Хешируем текст для ключа Redis
+		hash := utils.HashText(msg.Original.Text)
+
+		// Сохраняем только simplified текст по хешу оригинального текста
+		err = redisClient.Set(ctx, hash, msg.Simplified.Text, 0).Err()
 		if err != nil {
 			log.Printf("[ModelConsumer] Redis set error: %v", err)
 		} else {
-			log.Printf("[ModelConsumer] Cached result for token: %s", msg.Original.Token)
+			log.Printf("[ModelConsumer] Cached result under hash: %s", hash)
 		}
 
 		// Получаем логин
