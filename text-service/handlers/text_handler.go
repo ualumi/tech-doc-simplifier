@@ -177,7 +177,7 @@ func HandleUserRequest(msg kafkago.Message) {
 		return
 	}
 
-	if cached != "" {
+	if cached == redisKey {
 		log.Printf("Cache hit. Sending simplified response for token: %s", req.Token)
 		err := kafka.PublishSimplifiedResponse(string(msg.Key), cached)
 		if err != nil {

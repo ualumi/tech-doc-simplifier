@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChatHistory = ({ messages }) => {
   if (!messages.length) {
-    return <p className="text-gray-400">Нет сообщений</p>;
+    return <p className="text-gray-400"></p>;
   }
 
   return (

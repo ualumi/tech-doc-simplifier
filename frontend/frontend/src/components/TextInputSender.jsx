@@ -165,6 +165,7 @@ import { parseModelResponse } from './helpers/parseModelResponse.js';
 import mammoth from 'mammoth';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
+import './TextInputSender.css';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -295,31 +296,38 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
   };
 
   return (
-    <div className="mt-4 flex gap-2 items-start flex-wrap">
-      <input
-        type="file"
-        accept=".txt, .pdf, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
-        onChange={handleFileUpload}
-        className="file-input"
-      />
-
-      <input
-        type="text"
-        className="InputText flex-1 p-2 border rounded"
-        placeholder="Введите текст..."
-        value={text}
-        onClick={handleInputClick}
-        readOnly={!token}
-        onChange={(e) => setText(e.target.value)}
-      />
-
-      <button
-        onClick={handleSend}
-        disabled={!token || loading}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
-      >
-        {loading ? 'Отправка...' : 'Отправить'}
-      </button>
+    <div className="mt">
+      <div>
+        <input
+          type="file"
+          accept=".txt, .pdf, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+          onChange={handleFileUpload}
+          className="file-input"
+        />
+      </div>
+      
+      <div className='InputTextTypeText'>
+        <input
+          type="text"
+          className="InputText"
+          placeholder="Введите текст..."
+          value={text}
+          onClick={handleInputClick}
+          readOnly={!token}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </div>
+      
+      <div>
+        <button
+          onClick={handleSend}
+          disabled={!token || loading}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+        >
+          {loading ? 'Отправка...' : 'Отправить'}
+        </button>
+      </div>
+      
     </div>
   );
 };

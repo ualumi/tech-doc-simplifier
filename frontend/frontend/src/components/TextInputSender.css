@@ -1,0 +1,93 @@
+/*.mt{
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+    align-items: center;
+}
+
+.InputText{
+    border: 0px solid;
+    background-color: none;
+
+}
+
+.file-input{
+    border-radius: 50px;
+    background-color: white;
+}*/
+
+/* TextInputSender.css */
+
+/* TextInputSender.css */
+
+.mt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  flex: 1;
+  justify-content: space-between;
+}
+
+/*.InputTextTypeText{
+    width: 50%;
+}*/
+
+.file-input {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Скрываем настоящий input и стилизуем через ::before или с label, если нужно */
+
+.file-input::file-selector-button {
+  display: none;
+}
+
+.InputText {
+    font-family: loos;
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 40vw;
+}
+
+.InputText:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
+}
+
+button {
+    font-family: loos;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  background-color: #16a34a;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #15803d;
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}

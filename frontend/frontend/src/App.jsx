@@ -82,15 +82,19 @@ const App = () => {
         </div>
 
         <div className='content'>
-          <div className='text-field'>
-            <div>
-              <p className='HighText'>Чем могу помочь?</p>
+          {!selectedChat && !response && (
+            <div className='text-field'>
+              <div>
+                <p className='HighText'>Чем могу помочь?</p>
+              </div>
+              <div>
+                <p className='RegularText'>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis illum,
+                  aperiam eum laudantium impedit rerum?
+                </p>
+              </div>
             </div>
-            <div>
-              <p className='RegularText'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis illum, aperiam eum laudantium impedit rerum?</p>
-            </div>
-            
-          </div>
+          )}
 
           <div>
             {showLogin && (
@@ -112,25 +116,31 @@ const App = () => {
                 <ChatHistory messages={messages} />
               )}
             </div>
-            <TextInputSender
-              key={selectedChat ? selectedChat.id : `new-${response ? response.original : Date.now()}`}
-              token={token}
-              onTriggerLogin={() => {
-                console.log('Запрос на логин');
-                setShowLogin(true);
-              }}
-              onResponse={setResponse}
-              onMessageAdd={handleNewMessage} 
-              disabled={!!selectedChat}
-            />
+            <div className='response-text'>
+              <div className='TextInputSender'>
+                <TextInputSender
+                  key={selectedChat ? selectedChat.id : `new-${response ? response.original : Date.now()}`}
+                  token={token}
+                  onTriggerLogin={() => {
+                    console.log('Запрос на логин');
+                    setShowLogin(true);
+                  }}
+                  onResponse={setResponse}
+                  onMessageAdd={handleNewMessage} 
+                  disabled={!!selectedChat}
+                />
+              </div>
+              
+              
+              {response && !selectedChat && (
+                <ChatDetail 
+                  original={response.original || ''}
+                  simplified={response.simplified || ''}
+                  createdAt={response.createdAt || new Date().toISOString()}
+                />
+              )}
+            </div>
             
-            {response && !selectedChat && (
-              <ChatDetail 
-                original={response.original || ''}
-                simplified={response.simplified || ''}
-                createdAt={response.createdAt || new Date().toISOString()}
-              />
-            )}
           </div>
         </div>
       </div>

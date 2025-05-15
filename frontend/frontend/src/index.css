@@ -70,13 +70,13 @@ button:focus-visible {
 @font-face
 {
  font-family: rocgrotesk;
- src: url("./static/Fontspring-DEMO-rocgrotesk-light.otf");
+ src: url("./static/FiraSans-ExtraLight.ttf");
 }
 
 @font-face
 {
  font-family: loos;
- src: url("./static/fonnts.com-Loos_ExtraWide_Extra_Light.otf");
+ src: url("./static/FiraSans-ExtraLight.ttf");
 }
 
 .HighText{
@@ -100,6 +100,11 @@ button:focus-visible {
 
 .text-field{
   width: 70vh;
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .response{
@@ -118,7 +123,7 @@ body{
   overflow-y: scroll;
 }
 
-button{
+/*button{
   font-family: loos;
   border-radius: 40px;
   background-color: #ffffff;
@@ -127,13 +132,10 @@ button{
   padding-top: 10px;
   padding-bottom: 10px;
   border: none;
-}
+}*/
 
-.InputText{
-  background-color: rgba(0, 0, 0, 0.0);
-  border: none;
-  width: 40vw;
-  color: none;
+.history{
+  background-color:#f9fafb ;
 }
 
 .main-content{
@@ -141,43 +143,42 @@ button{
   grid-template-columns: 1fr 2fr;
 }
 
+.content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .chat{
   height: 100vh;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.content{
-  /*flex: 0.85;*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  align-self: center;
-  margin: 0;
-  padding: 20px;
-
+::-webkit-scrollbar{
+  border: none;
 }
 
-.footer-elem{
-  height: 15vh;
-  border-top: 1px solid;
-  border-color: rgba(255, 255, 255, 0.3);
-  width: 100%;
-  margin-top: 70px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 
-}
-
-.input-field{
+/*.input-field{
   border-radius: 40px;
   background-color: rgba(0, 0, 0, 0.25);
   width: fit-content;
   padding: 20px;
   margin-top: 10px;
   
+}*/
+
+.input-field{
+  width: 100%;
+}
+
+.TextInputSender{
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0;
 }
 
 .loginform{
@@ -221,6 +222,18 @@ ul {
 .auth-section{
   display: flex;
   justify-content: right;
+}
+
+/*.input-field {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+}*/
+
+.response-text{
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
 }
 
 

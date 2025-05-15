@@ -1,4 +1,44 @@
-.field{
+/*.field{
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 70px;
+}*/
+
+/* HistoryItem.css */
+
+.field {
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.field p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field p:first-child {
+  font-weight: 500;
+  color: #1f2937; /* темно-серый для оригинального текста */
+}
+
+.field p:last-child {
+  font-style: italic;
+  color: #047857; /* зеленый для упрощенного текста */
 }
