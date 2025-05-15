@@ -29,8 +29,8 @@
   background-color: #f9fafb;
   border-top: 1px solid #e5e7eb;
   flex: 1;
-  justify-content: space-between;
-  border-radius: 0.75rem;
+  justify-content: left;
+  border-radius: 1.5rem;
 }
 
 /*.InputTextTypeText{
@@ -38,7 +38,7 @@
 }*/
 
 .file-input {
-  display: inline-block;
+  display: none;
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
@@ -55,7 +55,7 @@
 }
 
 .InputText {
-    font-family: loos;
+  font-family: loos;
   flex: 1;
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
@@ -64,7 +64,8 @@
   background-color: #ffffff;
   outline: none;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  width: 10vw;
+  width: 50vw;
+  align-items: center;
 }
 
 .InputText:focus {
@@ -74,10 +75,10 @@
 
 button {
     font-family: loos;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
   font-size: 1rem;
-  border-radius: 0.75rem;
-  background-color: #16a34a;
+  border-radius: 1.5rem;
+  background-color:black;
   color: #ffffff;
   border: none;
   cursor: pointer;
@@ -85,10 +86,19 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background-color: #15803d;
+  background-color: #9ca3af;
 }
 
 button:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
+}
+
+.hidden{
+  display: none;
+}
+
+.buttoning{
+  position: fixed;
+  right: 1.5rem;
 }

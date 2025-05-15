@@ -159,6 +159,10 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
 export default TextInputSender;*/}
 
 
+
+
+
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { parseModelResponse } from './helpers/parseModelResponse.js';
@@ -166,6 +170,7 @@ import mammoth from 'mammoth';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
 import './TextInputSender.css';
+import { Paperclip, ArrowUp, Square} from 'lucide-react'; 
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -297,14 +302,16 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
 
   return (
     <div className="mt">
-      <div>
+      <label>
+        <Paperclip size={24} />
         <input
+          
           type="file"
           accept=".txt, .pdf, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
           onChange={handleFileUpload}
           className="file-input"
         />
-      </div>
+      </label>
       
       <div className='InputTextTypeText'>
         <input
@@ -318,13 +325,13 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
         />
       </div>
       
-      <div>
+      <div className='buttoning'>
         <button
           onClick={handleSend}
           disabled={!token || loading}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
         >
-          {loading ? 'Отправка...' : 'Отправить'}
+          {loading ? <Square size={24}/> : <ArrowUp size={24} />}
         </button>
       </div>
       

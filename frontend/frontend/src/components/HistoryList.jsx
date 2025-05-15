@@ -183,7 +183,7 @@ const HistoryList = ({ token, onSelect, refreshTrigger }) => {
 
   return (
     <div className="historycontent">
-      <h2 className="text-xl font-bold mb-4">История упрощений</h2>
+      {/*<h2 className="text-xl font-bold mb-4">История упрощений</h2>*/}
 
       {error ? (
         <p className="text-red-500">{error}</p>
