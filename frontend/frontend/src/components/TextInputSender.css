@@ -30,6 +30,7 @@
   border-top: 1px solid #e5e7eb;
   flex: 1;
   justify-content: space-between;
+  border-radius: 0.75rem;
 }
 
 /*.InputTextTypeText{
