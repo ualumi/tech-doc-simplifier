@@ -24,10 +24,10 @@
   .dropdown-menu {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 40px;
     background: white;
     border: 1px solid #ccc;
-    border-radius: 1.25rem;
+    border-radius: 1rem;
     min-width: 150px;
     padding: 10px;
     box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
@@ -53,11 +53,11 @@
   }
   
   .dropdown-logout {
-    background: #f44336;
+    background: black;
     color: white;
     border: none;
     padding: 6px 10px;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     cursor: pointer;
     width: 100%;
   }
