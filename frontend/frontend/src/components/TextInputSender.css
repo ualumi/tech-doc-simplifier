@@ -29,8 +29,8 @@
   background-color: #f9fafb;
   border-top: 1px solid #e5e7eb;
   /*flex: 1;*/
-  justify-content: left;
-  border-radius: 2rem;
+  justify-content: space-between;
+  border-radius: 1.75rem;
   /*width: 60vw;*/
   margin-bottom: 1rem;
 }
@@ -60,7 +60,7 @@
   font-family: loos;
   flex: 1;
   padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 1.25rem;
   border: 1px solid #d1d5db;
   font-size: 1rem;
   background-color: #ffffff;
@@ -69,6 +69,7 @@
   width: fit-content;
   /*width: 50vw;*/
   align-items: center;
+  display: flex;
 }
 
 .InputText:focus {
@@ -80,8 +81,8 @@ button {
   font-family: loos;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  border-radius: 1.5rem;
-  background-color:black;
+  border-radius: 1.25rem;
+  background-color:#3E3E3E;
   color: #ffffff;
   border: none;
   cursor: pointer;
@@ -89,7 +90,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background-color: #9ca3af;
+  background-color: black;
 }
 
 button:disabled {
@@ -108,7 +109,12 @@ button:disabled {
 
 
 .paperclip{
-  border-radius: 1.5rem;
-  background-color: #9ca3af;
+  border-radius: 1.25rem;
+  background-color: #3E3E3E;
   padding: 0.5rem 1rem;
+  color: white;
+}
+
+.paperclip:hover{
+  background-color: black;
 }
