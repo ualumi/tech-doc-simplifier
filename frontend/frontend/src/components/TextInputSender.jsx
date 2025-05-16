@@ -302,7 +302,7 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
 
   return (
     <div className="mt">
-      <label>
+      <label className='paperclip'>
         <Paperclip size={24} />
         <input
           

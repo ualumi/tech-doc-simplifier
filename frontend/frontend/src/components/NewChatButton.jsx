@@ -9,7 +9,7 @@ const NewChatButton = ({ onNewChat }) => {
           <Plus size={24}/>
         </div>
         <div>
-          <p className="mb-2 text-gray-900">Новый чат</p>
+          <p className="mb-2 text-gray-900" id='new_chat'>Новый чат</p>
         </div>
       </div>
     </div>

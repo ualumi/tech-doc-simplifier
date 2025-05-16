@@ -18,9 +18,11 @@
 /* ChatDetail.css */
 
 .p-4 {
-  padding: 1rem;
-  height: 70vh;
+  padding-top: 1rem;
+  /*padding-bottom: 1rem;*/
+  max-height: 72.5vh;
   overflow-y: scroll;
+  
 }
 
 /*.border {
@@ -28,7 +30,7 @@
 }*/
 
 .rounded-md {
-  border-radius: 0.375rem;
+  border-radius: 2rem;
 }
 
 .shadow {
@@ -36,7 +38,7 @@
 }
 
 .bg-white {
-  background-color: #ffffff;
+  background: none;
 }
 
 .You,
@@ -44,7 +46,7 @@
   max-width: 80%;
   margin-bottom: 1rem;
   padding: 0.75rem 1rem;
-  border-radius: 1.5rem;
+  border-radius: 2rem;
   line-height: 1.6;
   font-size: 1rem;
 }
@@ -64,6 +66,7 @@
 }
 
 .text-lg {
+  font-family: loos;
   font-size: 1.125rem;
 }
 

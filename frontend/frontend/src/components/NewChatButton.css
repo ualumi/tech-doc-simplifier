@@ -37,4 +37,12 @@
 
 .NewChatButton{
     margin: 0.75rem;
+    
+}
+
+#new_chat{
+  font-style: normal;
+  color: white;
+  padding: 0;
+  opacity: 100;
 }

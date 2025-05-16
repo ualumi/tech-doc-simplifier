@@ -80,7 +80,7 @@ button:focus-visible {
 }
 
 .HighText{
-  color: black;
+  color: white;
   font-size: 6vh;
   text-align: center;
   margin: 0px;
@@ -91,7 +91,7 @@ button:focus-visible {
 }
 
 .RegularText{
-  color: black;
+  color: white;
   font-size: 2vh;
   text-align: center;
   text-decoration: none;
@@ -100,8 +100,7 @@ button:focus-visible {
 
 .text-field{
   padding: 1rem;
-
-  height: 70vh;
+  height: 66.5vh;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -113,10 +112,11 @@ button:focus-visible {
 }
 
 body{
-  background-color: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), linear-gradient(152.41deg, rgba(199, 190, 255, 0.4) 17.16%, rgba(255, 224, 114, 0.4) 74.11%), ;
+  background-color: black;
   color: black;
   font-family: loos;
   overflow: hidden;
+  margin: 0;
 }
 
 .history{
@@ -136,7 +136,7 @@ body{
 }*/
 
 .history{
-  background-color:#f9fafb ;
+  background-color:black ;
 }
 
 .main-content{
@@ -145,21 +145,26 @@ body{
 }
 
 .content{
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 }
 
 .chat{
   height: 100vh;
   overflow: hidden;
-  margin-left: 10px;
-  margin-right: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: linear-gradient(90deg, #1E1E1E 0%, #000000 100%);
+  border-radius: 2.5rem 0rem 0rem 2.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 ::-webkit-scrollbar{
-  border: none;
+  display: none;
 }
 
 
@@ -176,6 +181,10 @@ body{
   width: 100%;
 }
 
+.InputTextTypeText{
+  width: 10vw;
+}
+
 .TextInputSender{
   border-radius: 50px;
   background-color: rgba(0, 0, 0, 0.25);
@@ -188,12 +197,16 @@ body{
 }
 
 .navbar{
+  margin-top: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   color: black;
   font-size: 0.95rem;
+  border-radius: 2rem;
+  background-color: #1E1E1E;
+  padding: 0.75rem;
 }
 
 .nav-links{
@@ -201,6 +214,7 @@ body{
   justify-content: center;
   align-items: center;
   /*opacity: 0.5;*/
+  
 }
 
 li{
@@ -235,9 +249,9 @@ ul {
 .response-text{
   display: flex;
   flex-direction: column-reverse;
-  position: fixed;
+  /*position: fixed;*/
   bottom: 1rem;
-  /*gap: 1rem;*/
+  gap: 1rem;
 }
 
 
