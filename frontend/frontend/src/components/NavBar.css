@@ -4,7 +4,7 @@
   }
   
   .user-avatar {
-    background-color: #555;
+    background-color: #3E3E3E;
     color: white;
     width: 32px;
     height: 32px;
@@ -14,6 +14,11 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
+  }
+
+  .user-avatar:hover{
+    background-color: black;
+    transition: 1s;
   }
   
   .dropdown-menu {
@@ -29,9 +34,16 @@
     z-index: 1000;
   }
 
-  .loginbutton{
-    font-size: 1.25rem;
-    padding: 1.25rem;
+  #loginbutton{
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+    background-color: white;
+    color: black;
+  }
+
+  #loginbutton:hover{
+    background-color: #9ca3af;
+    transition: 1s;
   }
   
   .dropdown-username {

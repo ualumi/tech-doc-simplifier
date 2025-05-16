@@ -79,11 +79,13 @@
 }
 
 .text-gray-700 {
-  color: #374151;
+  color: white;
+  opacity: 0.5;
 }
 
 .text-green-700 {
-  color: #047857;
+  color: white;
+  opacity: 0.5;
 }
 
 .mb-1 {

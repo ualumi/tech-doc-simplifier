@@ -12,7 +12,6 @@
   border: 0px solid #e5e7eb;
   /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);*/
   margin-bottom: 0.65rem;
-  transition: background 0.3s;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -29,8 +28,8 @@
 }
 
 .field:hover {
-  background: linear-gradient(90deg, #1E1E1E 25%, #9898CC 77.88%, #9BFFAB 100%);
-  transition: background 3s;
+  background: linear-gradient(90deg, rgba(62, 62, 62, 0.25) 0%, #3E3E3E 100%);
+  transition: 1s;
 }
 
 .cursor-pointer {

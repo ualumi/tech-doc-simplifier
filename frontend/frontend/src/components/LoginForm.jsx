@@ -178,7 +178,9 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
         <button onClick={handleClose} className="close">&times;</button>
 
         <div className="tabs">
+          
           <button
+            id='loginbutton'
             className={mode === 'signup' ? 'active' : ''}
             onClick={() => {
               setMode('login');
@@ -188,6 +190,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
             Log in
           </button>
           <button
+            id='loginbutton'
             className={mode === 'login' ? 'active' : ''}
             onClick={() => {
               setMode('signup');
@@ -199,6 +202,8 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          {mode === 'login' && (<div><p className=''>Hello</p></div>)}
+          
           {mode === 'signup' && (
             <input
               type="email"

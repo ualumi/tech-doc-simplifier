@@ -25,7 +25,7 @@
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   background-color: #f9fafb;
   border-top: 1px solid #e5e7eb;
   /*flex: 1;*/
@@ -66,7 +66,7 @@
   background-color: #ffffff;
   outline: none;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  width: fit-content;
+  width: 100%;
   /*width: 50vw;*/
   align-items: center;
   display: flex;
@@ -91,6 +91,7 @@ button {
 
 button:hover:not(:disabled) {
   background-color: black;
+  transition: 1s;
 }
 
 button:disabled {
@@ -102,10 +103,6 @@ button:disabled {
   display: none;
 }
 
-/*.buttoning{
-  position: fixed;
-  right: 1.5rem;
-}*/
 
 
 .paperclip{
@@ -117,4 +114,5 @@ button:disabled {
 
 .paperclip:hover{
   background-color: black;
+  transition: 1s;
 }
