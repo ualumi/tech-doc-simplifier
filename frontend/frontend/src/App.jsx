@@ -89,8 +89,7 @@ const App = () => {
               </div>
               <div>
                 <p className='RegularText'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis illum,
-                  aperiam eum laudantium impedit rerum?
+                  Преобразование технической документации в пользовательские инструкции
                 </p>
               </div>
             </div>

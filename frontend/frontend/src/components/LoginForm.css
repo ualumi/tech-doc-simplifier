@@ -11,6 +11,14 @@
     z-index: 1000;
   }
   
+  #hithere{
+    align-self: center;
+    text-align: center;
+    color:#9ca3af;
+    font-size: 0.8rem;
+  }
+
+
   .login-overlay.visible {
     opacity: 1;
     pointer-events: all;
@@ -54,7 +62,11 @@
   }
   
   .close:hover {
-    color: #3e3e3e;
+    background-color: white;
+  }
+
+  #close1:hover{
+    background-color: white;
   }
   
   .form-control {

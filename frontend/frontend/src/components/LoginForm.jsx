@@ -175,7 +175,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
   return (
     <div className={`login-overlay ${visible ? 'visible' : ''}`}>
       <div className={`loginform ${visible ? 'visible' : ''}`}>
-        <button onClick={handleClose} className="close">&times;</button>
+        <button onClick={handleClose} id='close1' className="close">&times;</button>
 
         <div className="tabs">
           
@@ -202,7 +202,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          {mode === 'login' && (<div><p className=''>Hello</p></div>)}
+          {mode === 'login' && (<div><p id='hithere'>Please, login or signup to use service</p></div>)}
           
           {mode === 'signup' && (
             <input

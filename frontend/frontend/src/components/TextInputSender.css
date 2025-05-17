@@ -50,7 +50,6 @@
   position: relative;
 }
 
-/* Скрываем настоящий input и стилизуем через ::before или с label, если нужно */
 
 .file-input::file-selector-button {
   display: none;
