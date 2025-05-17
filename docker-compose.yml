@@ -146,6 +146,15 @@ services:
       - kafka-net
 
 
+  frontend:
+    build:
+      context: ./frontend  # путь к Vite + React
+    container_name: frontend
+    ports:
+      - "3000:80"  # локальный порт:порт в контейнере
+    restart: always
+
+
 
 networks:
   kafka-net:

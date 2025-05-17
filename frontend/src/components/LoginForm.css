@@ -1,0 +1,143 @@
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+  
+  #hithere{
+    align-self: center;
+    text-align: center;
+    color:#9ca3af;
+    font-size: 0.8rem;
+  }
+
+
+  .login-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .loginform {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    min-width: 300px;
+    height: 45vh;
+    /*max-width: 90%;*/
+  }
+  
+  .loginform.visible {
+    transform: scale(1);
+    opacity: 1;
+
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .close:hover {
+    background-color: white;
+  }
+
+  #close1:hover{
+    background-color: white;
+  }
+  
+  .form-control {
+    width: 90%;
+    padding: 1rem;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    display: flex;
+    background: none;
+    
+  }
+
+
+  
+  .btn.login {
+    width: 100%;
+    background: black;
+    border: none;
+    padding: 1rem;
+    color: white;
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+  
+  .btn.login:hover{
+    background-color: #9ca3af;
+    transition: 1s;
+  }
+
+  .btn.login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .tabs button {
+    
+
+    border: none;
+    background: #666;
+    color: black;
+    cursor: pointer;
+    margin: 0 4px;
+    border-radius: 1rem;
+    transition: background 0.2s;
+  }
+  
+  .tabs button:hover{
+    background: white;
+  }
+
+
+
+  .tabs button.active {
+    background: none;
+    background: #9ca3af;
+  }
+  
+  .loginform form input[type="submit"] {
+    margin-top: 12px;
+
+  }
+  
