@@ -1,7 +1,7 @@
 import os
 import json
 from kafka import KafkaConsumer
-from model.simplifier import simplify_text
+from model.simplifier import generate_summary
 from kafka_producer import send_result_to_kafka
 
 KAFKA_BROKER = os.getenv("KAFKA_BROKER", "broker:9092")
@@ -34,7 +34,7 @@ def consume():
         token = request.get("token")
 
         if text and correlation_id:
-            simplified = simplify_text(text)
+            simplified = generate_summary(text)
             result = {
                 "original": {"text": text, "token": token},
                 "simplified": {"text": simplified, "token": token}

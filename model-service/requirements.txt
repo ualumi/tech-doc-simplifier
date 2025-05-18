@@ -1,2 +1,14 @@
+
+# Hugging Face Transformers и зависимости
+transformers==4.38.2
+torch>=1.13
+sentencepiece
+
+# PEFT (адаптивные слои LoRA и пр.)
+peft>=0.7.1  # совместимо с transformers >=4.38.2
+
+# Kafka клиент
 kafka-python
 
+# Опционально: если вы работаете с tqdm или логами
+tqdm

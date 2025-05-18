@@ -76,7 +76,7 @@ const NavBar = ({ isAuthenticated, username, onLoginClick, onLogout }) => {
 
       <div className="auth-section" ref={menuRef}>
         {!isAuthenticated ? (
-          <button id='loginbutton' onClick={onLoginClick}>Login</button>
+          <button id='loginbutton' onClick={onLoginClick}>Log in</button>
         ) : (
           <div className="avatar-wrapper" onClick={toggleMenu}>
             <div className="user-avatar">
