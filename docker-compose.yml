@@ -178,6 +178,9 @@ services:
 networks:
   kafka-net:
     driver: bridge
+  default:
+    external: false
+    name: kafka-net
 
 volumes:
   pgdata:
