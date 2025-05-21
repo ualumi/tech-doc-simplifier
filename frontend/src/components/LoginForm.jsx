@@ -114,7 +114,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
       setLoading(true);
       setError('');
 
-      const res = await axios.post('http://localhost:8081/login', {
+      const res = await axios.post('http://87.228.89.190/authorization/login', {
         login: username,
         password: password
       }, {
@@ -135,7 +135,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
       setLoading(true);
       setError('');
 
-      const res = await axios.post('http://localhost:8081/registration', {
+      const res = await axios.post('http://87.228.89.190/authorization/registration', {
         email,
         login: username,
         password
