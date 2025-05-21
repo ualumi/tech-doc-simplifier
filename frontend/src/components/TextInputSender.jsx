@@ -199,7 +199,7 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
       setLoading(true);
 
       const res = await axios.post(
-        'http://localhost:8080/simplify',
+        'http://87.228.89.190/main/simplify',
         { text: userInput },
         {
           headers: {
