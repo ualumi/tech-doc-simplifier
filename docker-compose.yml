@@ -153,6 +153,8 @@ services:
     ports:
       - "3000:80"  # локальный порт:порт в контейнере
     restart: always
+    networks:
+      - kafka-net
 
 
   nginx:
