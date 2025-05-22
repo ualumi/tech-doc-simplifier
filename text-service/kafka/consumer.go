@@ -27,28 +27,3 @@ func StartUserRequestConsumer(msgChan chan kafka.Message) {
 		}
 	}()
 }
-
-// StartResponseConsumer подписывается на model_response и сохраняет результат в Redis
-/*func StartResponseConsumer() {
-	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{"broker:9092"},
-		Topic:   "model_response",
-		GroupID: "text-service-model-group",
-	})
-	go func() {
-		defer r.Close()
-		for {
-			m, err := r.ReadMessage(context.Background())
-			if err != nil {
-				log.Println("Kafka read error (model_response):", err)
-				continue
-			}
-
-			key := string(m.Key)
-			value := string(m.Value)
-			log.Printf("Received model response: key=%s, value=%s", key, value)
-
-			redis.SaveResult(key, value)
-		}
-	}()
-}*/

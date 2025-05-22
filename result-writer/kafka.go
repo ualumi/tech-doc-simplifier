@@ -39,11 +39,8 @@ func StartKafkaConsumer(cfg Config, redisClient *redis.Client, db *gorm.DB) {
 		log.Printf("[ModelConsumer] Parsed message: original_token=%s, original_text=%s, simplified_text=%s",
 			msg.Original.Token, msg.Original.Text, msg.Simplified.Text)
 
-		// Сохраняем в Redis
-		// Хешируем текст для ключа Redis
 		hash := utils.HashText(msg.Original.Text)
 
-		// Сохраняем только simplified текст по хешу оригинального текста
 		err = redisClient.Set(ctx, hash, msg.Simplified.Text, 0).Err()
 		if err != nil {
 			log.Printf("[ModelConsumer] Redis set error: %v", err)
@@ -51,7 +48,6 @@ func StartKafkaConsumer(cfg Config, redisClient *redis.Client, db *gorm.DB) {
 			log.Printf("[ModelConsumer] Cached result under hash: %s", hash)
 		}
 
-		// Получаем логин
 		login, err := GetUserLoginByToken(redisClient, msg.Original.Token)
 		if err != nil {
 			log.Printf("[ModelConsumer] Redis token error: %v", err)
@@ -59,7 +55,6 @@ func StartKafkaConsumer(cfg Config, redisClient *redis.Client, db *gorm.DB) {
 		}
 		log.Printf("[ModelConsumer] Resolved login: %s", login)
 
-		// Сохраняем в БД
 		result := SimplificationResult{
 			Original:   msg.Original.Text,
 			Simplified: msg.Simplified.Text,

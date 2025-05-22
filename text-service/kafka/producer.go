@@ -34,7 +34,7 @@ var (
 func InitProducer() {
 	requestWriter = &kafka.Writer{
 		Addr:     kafka.TCP("broker:9092"),
-		Topic:    "model_requests", // Задаём здесь
+		Topic:    "model_requests", // топик для модели
 		Balancer: &kafka.LeastBytes{},
 	}
 

@@ -18,7 +18,7 @@ type SimplifyRequest struct {
 
 func StartConsumer() {
 	broker := os.Getenv("KAFKA_BROKER")
-	requestTopic := os.Getenv("KAFKA_TOPIC") // например: model_requests
+	requestTopic := os.Getenv("KAFKA_TOPIC")
 	responseTopic := "user_responses"
 	forwardTopic := "text_request"
 

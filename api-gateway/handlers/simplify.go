@@ -34,7 +34,6 @@ func SimplifyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Получаем correlation ID из контекста
 	corrID := middleware.GetCorrelationID(r.Context())
 
 	if err := kafka.PublishSimplifyRequest(corrID, req.Text, token); err != nil {

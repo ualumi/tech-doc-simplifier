@@ -29,15 +29,6 @@ func InitPostgres() {
 	}
 }
 
-//func InitPostgres() {
-//	dsn := os.Getenv("postgresql://postgres:pupipu@localhost/postgres?client_encoding=utf8") // пример: postgres://user:pass@user-db:5432/dbname?sslmode=disable
-//	var err error
-//	DB, err = sql.Open("postgres", dsn)
-//	if err != nil {
-//		log.Fatal("Postgres connection failed:", err)
-//	}
-//}
-
 func SaveUser(u models.User) error {
 	_, err := DB.Exec("INSERT INTO users_info (email, login, password) VALUES ($1, $2, $3)", u.Email, u.Login, u.Password)
 	return err
