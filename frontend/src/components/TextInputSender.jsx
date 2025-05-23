@@ -1,9 +1,4 @@
 
-
-
-
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { parseModelResponse } from './helpers/parseModelResponse.js';
@@ -34,13 +29,13 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
 
     const userInput = text;
     setText('');
-    onResponse({ original: userInput }); // Предварительный отклик
+    onResponse({ original: userInput }); 
 
     try {
       setLoading(true);
 
       const res = await axios.post(
-        'http://87.228.89.190/main/simplify',
+        'http://localhost:8080/simplify',
         { text: userInput },
         {
           headers: {
@@ -75,7 +70,7 @@ const TextInputSender = ({ token, onTriggerLogin, onResponse, onMessageAdd }) =>
         });
       }
     } catch (error) {
-      console.error('❌ Ошибка отправки:', error);
+      console.error(' Ошибка отправки:', error);
       onResponse({
         original: userInput,
         simplified: 'Ошибка при отправке текста',

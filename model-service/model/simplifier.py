@@ -1,7 +1,4 @@
 
-
-
-
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import torch
 
@@ -25,8 +22,6 @@ def generate_summary(text: str) -> str:
     if len(text)<= 100:
         return "Слишком маленький текст("
     
-    if "программ" not in text:
-        return "Данный текст не содержит документации по теме Стратегическое планирование и отчётность"
     if len(text)>2000:
         return "Слишком мольшой текст"
 

@@ -5,10 +5,10 @@ torch>=1.13
 sentencepiece
 
 # PEFT (адаптивные слои LoRA и пр.)
-peft==0.8.2  # совместимо с transformers >=4.38.2
+peft==0.8.2  
 
-# Kafka клиент
+
 kafka-python
 
-# Опционально: если вы работаете с tqdm или логами
+
 tqdm

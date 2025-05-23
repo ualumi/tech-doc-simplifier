@@ -16,6 +16,7 @@ var resultResponseReader *kafka.Reader
 func InitConsumer(broker, topic string) {
 	log.Printf("[Kafka InitConsumer] Initializing consumer for topic '%s' at broker '%s'\n", topic, broker)
 
+	// Сброс offset до самого последнего вручную
 	conn, err := kafka.DialLeader(context.Background(), "tcp", broker, topic, 0)
 	if err != nil {
 		log.Fatalf("[Kafka InitConsumer] Failed to connect to Kafka leader: %v\n", err)
@@ -29,8 +30,8 @@ func InitConsumer(broker, topic string) {
 	responseReader = kafka.NewReader(kafka.ReaderConfig{
 		Brokers:     []string{broker},
 		Topic:       topic,
-		GroupID:     "",
-		StartOffset: lastOffset,
+		GroupID:     "",         // без GroupID — каждый раз читаем заново
+		StartOffset: lastOffset, // начинаем с последнего оффсета
 		MinBytes:    10e3,
 		MaxBytes:    10e6,
 	})
@@ -45,7 +46,6 @@ func ReadResponse(correlationID string) (string, error) {
 	log.Printf("[Kafka ReadResponse] Waiting for response with correlationID: %s\n", correlationID)
 
 	for {
-		// Чтение сообщения
 		m, err := responseReader.ReadMessage(ctx)
 		if err != nil {
 			log.Printf("[Kafka ReadResponse] Error while reading message: %v\n", err)
@@ -71,7 +71,6 @@ func CloseConsumer() error {
 	return nil
 }
 
-// new one
 func InitResultResponseConsumer(broker string) {
 	const topic = "result_response"
 	log.Printf("[Kafka InitResultResponseConsumer] Initializing consumer for topic '%s'\n", topic)

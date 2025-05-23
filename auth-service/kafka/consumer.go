@@ -23,9 +23,8 @@ func StartConsumer() {
 	forwardTopic := "text_request"
 
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{broker},
-		Topic:   requestTopic,
-		//GroupID:     "auth-service-group-v2",
+		Brokers:     []string{broker},
+		Topic:       requestTopic,
 		StartOffset: kafka.LastOffset,
 		MinBytes:    10e3,
 		MaxBytes:    10e6,

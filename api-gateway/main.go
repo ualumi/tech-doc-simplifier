@@ -34,7 +34,6 @@ func main() {
 		}
 	}()
 
-	//for /history
 	kafka.InitResultResponseConsumer(kafkaBroker)
 
 	kafka.InitResultRequestProducer(kafkaBroker)

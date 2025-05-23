@@ -41,7 +41,7 @@ const HistoryList = ({ token, onSelect, refreshTrigger }) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get('http://87.228.89.190/main/history', {
+        const res = await axios.get('http://localhost:8080/history', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

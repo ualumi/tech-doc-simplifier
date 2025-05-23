@@ -18,19 +18,16 @@ type Request struct {
 func HandleUserRequest(msg kafkago.Message) {
 	var req Request
 
-	//JSON
 	if err := json.Unmarshal(msg.Value, &req); err != nil {
 		log.Printf("Failed to parse message: %v", err)
 		return
 	}
 
-	//токен и текст
 	if req.Text == "" || req.Token == "" {
 		log.Println("Missing text or token in request. Skipping.")
 		return
 	}
 
-	//Redis
 	redisKey := utils.HashText(req.Text)
 	cached, err := redis.GetResult(redisKey)
 	if err != nil {
@@ -41,7 +38,6 @@ func HandleUserRequest(msg kafkago.Message) {
 	if cached != "" {
 		log.Printf("Cache hit. Sending simplified response for token: %s", req.Token)
 
-		//структура ответа
 		response := kafka.KafkaMessage{
 			Original: kafka.OriginalPayload{
 				Text:  req.Text,
@@ -53,14 +49,12 @@ func HandleUserRequest(msg kafkago.Message) {
 			},
 		}
 
-		//сериализация
 		respBytes, err := json.Marshal(response)
 		if err != nil {
 			log.Printf("Failed to marshal response: %v", err)
 			return
 		}
 
-		//ответ
 		err = kafka.PublishSimplifiedResponse(string(msg.Key), string(respBytes))
 		if err != nil {
 			log.Printf("Failed to publish simplified response: %v", err)

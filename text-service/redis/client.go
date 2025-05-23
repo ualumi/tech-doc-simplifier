@@ -38,6 +38,6 @@ func SaveResult(hash, result string) {
 	if err != nil {
 		log.Printf("Error saving key %s to Redis: %v", hash, err)
 	} else {
-		log.Printf("Successfully saved key %s with 24h TTL", hash)
+		log.Printf("Successfully saved key %s ", hash)
 	}
 }

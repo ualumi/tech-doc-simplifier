@@ -6,10 +6,10 @@ def check_kafka_connection(host, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         try:
             s.connect((host, port))
-            print("✔️ Kafka доступен")
+            print("Kafka доступен")
             return True
         except Exception as e:
-            print(f"❌ Kafka недоступен: {e}")
+            print(f"Kafka недоступен: {e}")
             return False
 
 if __name__ == "__main__":

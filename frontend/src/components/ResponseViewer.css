@@ -4,7 +4,7 @@
     transition: opacity 0.4s ease, transform 0.4s ease;
     margin-top: 1rem;
     padding: 0.5rem;
-    background-color: #F2F2F2; /* bg-gray-100 */
+    background-color: #F2F2F2; 
     border-radius: 70px;
     z-index: 1000;
     position: absolute;

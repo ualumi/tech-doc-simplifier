@@ -17,12 +17,11 @@ func ReadModelResponseOnce(broker, topic, correlationID string) (string, error) 
 	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:  []string{broker},
 		Topic:    topic,
-		GroupID:  "read-model-response-" + correlationID, // без GroupID — читаем напрямую
+		GroupID:  "read-model-response-" + correlationID,
 		MinBytes: 1,
 		MaxBytes: 10e6,
 	})
 
-	// Установка offset вручную: на последний, но читаем сразу после
 	conn, err := kafka.DialLeader(ctx, "tcp", broker, topic, 0)
 	if err != nil {
 		log.Printf("[Kafka ReadModelResponseOnce] Failed to dial leader: %v\n", err)

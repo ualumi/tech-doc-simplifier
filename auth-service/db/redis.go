@@ -13,7 +13,7 @@ var Ctx = context.Background()
 
 func InitRedis() {
 	Redis = redis.NewClient(&redis.Options{
-		Addr: os.Getenv("REDIS_ADDR"), // redis:6379
+		Addr: os.Getenv("REDIS_ADDR"),
 	})
 }
 

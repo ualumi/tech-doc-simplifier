@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './ResponseViewer.css'; // подключаем стили
+import './ResponseViewer.css'; 
 
 const ResponseViewer = ({ response }) => {
   const [visible, setVisible] = useState(false);

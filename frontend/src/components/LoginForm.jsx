@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './LoginForm.css';
@@ -29,7 +28,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
       setLoading(true);
       setError('');
 
-      const res = await axios.post('http://87.228.89.190/authorization/login', {
+      const res = await axios.post('http://localhost:8081/login', {
         login: username,
         password: password
       }, {
@@ -50,7 +49,7 @@ const LoginForm = ({ onLoginSuccess, onClose }) => {
       setLoading(true);
       setError('');
 
-      const res = await axios.post('http://87.228.89.190/authorization/registration', {
+      const res = await axios.post('http://localhost:8081/registration', {
         email,
         login: username,
         password

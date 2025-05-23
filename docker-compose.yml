@@ -6,7 +6,7 @@ services:
     container_name: broker
     ports:
       - "9092:9092"
-      - "29092:29092"  # порт для подключения снаружи (например, с локальной машины)
+      - "29092:29092"  
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -68,7 +68,7 @@ services:
       - KAFKA_BROKER=broker:9092
       - KAFKA_TOPIC=user_requests
       - KAFKA_RESPONSE_TOPIC=user_responses
-      - KAFKA_FORWARD_TOPIC=text_requests #если запрос валиден
+      - KAFKA_FORWARD_TOPIC=text_requests 
     networks:
       - kafka-net
 
@@ -122,7 +122,6 @@ services:
       - KAFKA_PRODUCER_TOPIC=text_requests
       - KAFKA_MODEL_REQUEST_TOPIC=model_requests
       - KAFKA_MODEL_RESPONSE_TOPIC=model_response
-      #- KAFKA_MODEL_SIMPLIFIED_RESPONSE_TOPIC=simplified_response
       - REDIS_ADDR=redis:6379
     networks:
       - kafka-net
@@ -148,10 +147,10 @@ services:
 
   frontend:
     build:
-      context: ./frontend  # путь к Vite + React
+      context: ./frontend  
     container_name: frontend
     ports:
-      - "3000:80"  # локальный порт:порт в контейнере
+      - "3000:80"  
     restart: always
     networks:
       - kafka-net

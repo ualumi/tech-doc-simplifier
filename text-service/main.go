@@ -13,8 +13,6 @@ func main() {
 	redis.InitRedis()
 	kafka.InitProducer()
 
-	/*go kafka.StartResponseConsumer()*/
-
 	msgChan := make(chan kafkaGo.Message)
 	kafka.StartUserRequestConsumer(msgChan)
 
